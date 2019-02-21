@@ -32,7 +32,7 @@ const Yes = props => {
     setGif(`https://i.giphy.com/media/${x}/giphy.webp`)
   }, [])
 
-  return <img src={gif} height="450" width="450" alt="unicorn poop" />
+  return <img src={gif} alt="unicorn poop" />
 }
 
 export default Yes

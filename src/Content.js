@@ -174,16 +174,16 @@ const Content = props => {
     <Container>
       <Left
         keydown={leftDown === 1 ? 1 : 0}
-        onMouseDown={() => handleDown('left')}
-        onMouseUp={() => handleUp('left')}
+        onTouchStart={() => handleDown('left')}
+        onTouchEnd={() => handleUp('left')}
       >
         {leftDown === 2 ? <Time>{leftTimer}</Time> : null}
         {leftDown === 2 ? leftTimer === answer ? <Yes /> : <Nope /> : null}
       </Left>
       <Right
         keydown={rightDown === 1 ? 1 : 0}
-        onMouseDown={() => handleDown('right')}
-        onMouseUp={() => handleUp('right')}
+        onTouchStart={() => handleDown('right')}
+        onTouchEnd={() => handleUp('right')}
       >
         {rightDown === 2 ? <Time>{rightTimer}</Time> : null}
         {rightDown === 2 ? rightTimer === answer ? <Yes /> : <Nope /> : null}
