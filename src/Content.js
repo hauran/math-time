@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import Yes from './Yes'
 import Nope from './Nope'
+import StartOver from './StartOver'
 import { AppContext } from './AppContext'
 
 const SPACE_KEY = 32
@@ -37,12 +38,26 @@ const Right = styled(Side)`
 
 const MathContainer = styled.div`
   position: absolute;
-  top: 50px;
   left: 0;
   right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (min-width: 48em) {
+    top: 50px;
+  }
+  @media (max-width: 48em) {
+    top: 30px;
+  }
+`
+
+const StartOverContainer = styled.div`
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  @media (min-width: 48em) {
+    display: none;
+  }
 `
 
 const Display = styled.h1`
@@ -82,29 +97,34 @@ const Content = props => {
   // up = 2
   const [leftDown, setLeftDown] = useState(0)
   const [leftTimer, setLeftTimer] = useState(0)
-  const [leftTimeStart, setLeftTimeStart] = useState(0)
 
   const [rightDown, setRightDown] = useState(0)
   const [rightTimer, setRightTimer] = useState(0)
-  const [rightTimeStart, setRightTimeStart] = useState(0)
 
   let leftDone = 0,
-    rightDone = 0
+    rightDone = 0,
+    leftTimerStarted = 0,
+    rightTimerStarted = 0
 
   const toggleTimer = (timer, value) => {
+    console.log('toggleTimer', leftTimerStarted)
     const now = new Date().getTime()
     if (value === 1) {
       // start timer
-      if (timer === 'left' && !leftTimeStart) setLeftTimeStart(now)
-      else if (timer === 'right' && !rightTimeStart) setRightTimeStart(now)
+      if (timer === 'left' && !leftTimerStarted) {
+        leftTimerStarted = now
+        console.log('leftTimerStarted', leftTimerStarted)
+      } else if (timer === 'right' && !rightTimerStarted) {
+        rightTimerStarted = now
+      }
     } else {
       //end timer
       if (timer === 'left') {
-        console.log(now, leftTimeStart)
-        setLeftTimer(Math.floor((now - leftTimeStart) / 1000))
+        console.log('timer end', now, leftTimerStarted)
+        setLeftTimer(Math.floor((now - leftTimerStarted) / 1000))
         leftDone = 1
       } else {
-        setRightTimer(Math.floor((now - rightTimeStart) / 1000))
+        setRightTimer(Math.floor((now - rightTimerStarted) / 1000))
         rightDone = 1
       }
     }
@@ -113,22 +133,22 @@ const Content = props => {
   const reset = () => {
     setLeftDown(0)
     setLeftTimer(0)
-    setLeftTimeStart(0)
     setRightDown(0)
     setRightTimer(0)
-    setRightTimeStart(0)
     leftDone = 0
     rightDone = 0
+    leftTimerStarted = 0
+    rightTimerStarted = 0
   }
 
   const handleDown = side => {
     if (side === 'left') {
-      if (!leftTimeStart) {
+      if (!leftTimerStarted) {
         toggleTimer(side, 1)
         setLeftDown(1)
       }
     } else {
-      if (!rightTimeStart) {
+      if (!rightTimerStarted) {
         toggleTimer(side, 1)
         setRightDown(1)
       }
@@ -148,11 +168,14 @@ const Content = props => {
       }
     }
   }
+  const startOver = () => {
+    reset()
+    generateMathProblem()
+  }
   const handleKeyDown = event => {
     switch (event.keyCode) {
       case SPACE_KEY:
-        reset()
-        generateMathProblem()
+        startOver()
         break
       case LEFT_Z_KEY:
         handleDown('left')
@@ -186,6 +209,7 @@ const Content = props => {
   return (
     <Container>
       <Left
+        className="side"
         keydown={leftDown === 1 ? 1 : 0}
         onTouchStart={() => handleDown('left')}
         onTouchEnd={() => handleUp('left')}
@@ -194,6 +218,7 @@ const Content = props => {
         {leftDown === 2 ? leftTimer === answer ? <Yes /> : <Nope /> : null}
       </Left>
       <Right
+        className="side"
         keydown={rightDown === 1 ? 1 : 0}
         onTouchStart={() => handleDown('right')}
         onTouchEnd={() => handleUp('right')}
@@ -204,6 +229,9 @@ const Content = props => {
       <MathContainer>
         <MathProblem>{mathProblem}</MathProblem>
       </MathContainer>
+      <StartOverContainer onClick={startOver}>
+        <StartOver />
+      </StartOverContainer>
     </Container>
   )
 }

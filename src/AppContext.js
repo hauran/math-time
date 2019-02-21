@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react'
 
-const MAX_VALUE = 21
+const MAX_VALUE = 20
 
 const AppContext = createContext()
 
