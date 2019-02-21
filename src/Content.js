@@ -70,21 +70,21 @@ const Content = props => {
   // up = 2
   const [leftDown, setLeftDown] = useState(0)
   const [leftTimer, setLeftTimer] = useState(0)
+  const [leftTimeStart, setLeftTimeStart] = useState(0)
 
   const [rightDown, setRightDown] = useState(0)
   const [rightTimer, setRightTimer] = useState(0)
+  const [rightTimeStart, setRightTimeStart] = useState(0)
 
-  let leftTimeStart = 0,
-    rightTimeStart = 0,
-    leftDone = 0,
+  let leftDone = 0,
     rightDone = 0
 
   const toggleTimer = (timer, value) => {
     const now = new Date().getTime()
-    // start timer
     if (value === 1) {
-      if (timer === 'left' && !leftTimeStart) leftTimeStart = now
-      else if (timer === 'right' && !rightTimeStart) rightTimeStart = now
+      // start timer
+      if (timer === 'left' && !leftTimeStart) setLeftTimeStart(now)
+      else if (timer === 'right' && !rightTimeStart) setRightTimeStart(now)
     } else {
       //end timer
       if (timer === 'left') {
@@ -100,31 +100,52 @@ const Content = props => {
   const reset = () => {
     setLeftDown(0)
     setLeftTimer(0)
+    setLeftTimeStart(0)
     setRightDown(0)
     setRightTimer(0)
-    leftTimeStart = 0
-    rightTimeStart = 0
+    setRightTimeStart(0)
     leftDone = 0
     rightDone = 0
   }
 
+  const handleDown = side => {
+    if (side === 'left') {
+      if (!leftTimeStart) {
+        toggleTimer(side, 1)
+        setLeftDown(1)
+      }
+    } else {
+      if (!rightTimeStart) {
+        toggleTimer(side, 1)
+        setRightDown(1)
+      }
+    }
+  }
+
+  const handleUp = side => {
+    if (side === 'left') {
+      if (!leftDone) {
+        setLeftDown(2)
+        toggleTimer(side, 0)
+      }
+    } else {
+      if (!rightDone) {
+        setRightDown(2)
+        toggleTimer(side, 0)
+      }
+    }
+  }
   const handleKeyDown = event => {
     switch (event.keyCode) {
       case SPACE_KEY:
-        generateMathProblem()
         reset()
+        generateMathProblem()
         break
       case LEFT_Z_KEY:
-        if (!leftTimeStart) {
-          toggleTimer('left', 1)
-          setLeftDown(1)
-        }
+        handleDown('left')
         break
       case RIGHT_QUESTION_KEY:
-        if (!rightTimeStart) {
-          toggleTimer('right', 1)
-          setRightDown(1)
-        }
+        handleDown('right')
         break
       default:
         break
@@ -134,16 +155,10 @@ const Content = props => {
   const handleKeyUp = event => {
     switch (event.keyCode) {
       case LEFT_Z_KEY:
-        if (!leftDone) {
-          setLeftDown(2)
-          toggleTimer('left', 0)
-        }
+        handleUp('left')
         break
       case RIGHT_QUESTION_KEY:
-        if (!rightDone) {
-          setRightDown(2)
-          toggleTimer('right', 0)
-        }
+        handleUp('right')
         break
       default:
         break
@@ -157,12 +172,19 @@ const Content = props => {
 
   return (
     <Container>
-      <Left keydown={leftDown === 1 ? 1 : 0}>
+      <Left
+        keydown={leftDown === 1 ? 1 : 0}
+        onMouseDown={() => handleDown('left')}
+        onMouseUp={() => handleUp('left')}
+      >
         {leftDown === 2 ? <Time>{leftTimer}</Time> : null}
-
         {leftDown === 2 ? leftTimer === answer ? <Yes /> : <Nope /> : null}
       </Left>
-      <Right keydown={rightDown === 1 ? 1 : 0}>
+      <Right
+        keydown={rightDown === 1 ? 1 : 0}
+        onMouseDown={() => handleDown('right')}
+        onMouseUp={() => handleUp('right')}
+      >
         {rightDown === 2 ? <Time>{rightTimer}</Time> : null}
         {rightDown === 2 ? rightTimer === answer ? <Yes /> : <Nope /> : null}
       </Right>
