@@ -47,18 +47,30 @@ const MathContainer = styled.div`
 
 const Display = styled.h1`
   color: white;
-  padding: 30px;
   text-align: center;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.7);
+  @media (min-width: 48em) {
+    padding: 30px;
+  }
+  @media (max-width: 48em) {
+    padding: 10px;
+  }
 `
 
 const MathProblem = styled(Display)`
-  min-width: 150px;
+  @media (min-width: 48em) {
+    min-width: 150px;
+  }
 `
 
 const Time = styled(Display)`
-  font-size: 5em;
+  @media (min-width: 48em) {
+    font-size: 5em;
+  }
+  @media (max-width: 48em) {
+    font-size: 3em;
+  }
 `
 
 const Content = props => {
@@ -88,6 +100,7 @@ const Content = props => {
     } else {
       //end timer
       if (timer === 'left') {
+        console.log(now, leftTimeStart)
         setLeftTimer(Math.floor((now - leftTimeStart) / 1000))
         leftDone = 1
       } else {

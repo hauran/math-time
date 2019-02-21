@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 
 const gifs = [
   'Wp5CIL0eQj8D6',
@@ -21,6 +22,20 @@ const gifs = [
   '3ohs4C4pHiR4xE70qc'
 ]
 
+const Container = styled.div`
+  @media (min-width: 48em) {
+    width: 450px;
+  }
+  @media (max-width: 48em) {
+    width: 50vw;
+  }
+
+  & img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+`
+
 const Yes = props => {
   const randomGif = () => {
     return gifs[Math.floor(Math.random() * gifs.length)]
@@ -32,7 +47,11 @@ const Yes = props => {
     setGif(`https://i.giphy.com/media/${x}/giphy.webp`)
   }, [])
 
-  return <img src={gif} alt="unicorn poop" />
+  return (
+    <Container>
+      <img src={gif} alt="nope" />
+    </Container>
+  )
 }
 
 export default Yes
