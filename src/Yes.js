@@ -25,13 +25,15 @@ const gifs = [
 
 const Container = styled.div`
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   @media (min-width: 48em) {
     width: 450px;
     margin-top: 250px;
   }
   @media (max-width: 48em) {
     width: 50vw;
-    margin-top: -120px;
   }
 
   & img {
