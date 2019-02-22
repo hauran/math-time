@@ -1,7 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-const gifs = ['26xBIgTMTE5b3Ware', 'XwnxEG9365aMw', 'l378nu4kJajdfCvUk']
+const gifs = [
+  '26xBIgTMTE5b3Ware',
+  'XwnxEG9365aMw',
+  'l378nu4kJajdfCvUk',
+  'mcsE75zh9etKE',
+  '3o7aCYje2hvVsaTpio',
+  'QObQirfaL3arJiKxeW',
+  '3pZ9PhkJxEiMQPS5lm',
+  'llXSgLPOy6DfCNcJDp',
+  '4KFwpiwm1JYEZi5Gsq',
+  '28j6GjBumA7ZKmaKI9',
+  '9oICl27yHGp3wAXUW6',
+  '3d6WSrv3PbyZq1vdjC'
+]
 
 const Container = styled.div`
   @media (min-width: 48em) {

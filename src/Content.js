@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Yes from './Yes'
 import Nope from './Nope'
 import StartOver from './StartOver'
+
 import { AppContext } from './AppContext'
 
 const SPACE_KEY = 32
@@ -24,17 +25,12 @@ const Side = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  position: relative;
 `
 
-const Left = styled(Side)`
-  background-color: ${props =>
-    props.keydown ? 'rgba(253, 121, 168, 1.0)' : 'rgba(253, 121, 168, 0.5)'};
-`
+const Left = styled(Side)``
 
-const Right = styled(Side)`
-  background-color: ${props =>
-    props.keydown ? 'rgba(108, 92, 231, 1.0)' : 'rgba(108, 92, 231, 0.5)'};
-`
+const Right = styled(Side)``
 
 const MathContainer = styled.div`
   position: absolute;
@@ -80,10 +76,13 @@ const MathProblem = styled(Display)`
 `
 
 const Time = styled(Display)`
+  position: absolute;
   @media (min-width: 48em) {
+    top: 150px;
     font-size: 5em;
   }
   @media (max-width: 48em) {
+    top: 100px;
     font-size: 3em;
   }
 `
@@ -97,30 +96,30 @@ const Content = props => {
   // up = 2
   const [leftDown, setLeftDown] = useState(0)
   const [leftTimer, setLeftTimer] = useState(0)
+  const [leftTimerStarted, setLeftTimerStarted] = useState(0)
 
   const [rightDown, setRightDown] = useState(0)
   const [rightTimer, setRightTimer] = useState(0)
+  const [rightTimerStarted, setRightTimerStarted] = useState(0)
 
   let leftDone = 0,
-    rightDone = 0,
-    leftTimerStarted = 0,
-    rightTimerStarted = 0
+    rightDone = 0
 
   const toggleTimer = (timer, value) => {
-    console.log('toggleTimer', leftTimerStarted)
     const now = new Date().getTime()
     if (value === 1) {
+      // console.log('timer start', now, leftTimerStarted)
       // start timer
-      if (timer === 'left' && !leftTimerStarted) {
-        leftTimerStarted = now
-        console.log('leftTimerStarted', leftTimerStarted)
+      if (timer === 'left' && leftTimerStarted === 0) {
+        setLeftTimerStarted(now)
+        // console.log('leftTimerStarted', leftTimerStarted, now)
       } else if (timer === 'right' && !rightTimerStarted) {
-        rightTimerStarted = now
+        setRightTimerStarted(now)
       }
     } else {
       //end timer
       if (timer === 'left') {
-        console.log('timer end', now, leftTimerStarted)
+        // console.log('timer end', now, leftTimerStarted)
         setLeftTimer(Math.floor((now - leftTimerStarted) / 1000))
         leftDone = 1
       } else {
@@ -137,8 +136,8 @@ const Content = props => {
     setRightTimer(0)
     leftDone = 0
     rightDone = 0
-    leftTimerStarted = 0
-    rightTimerStarted = 0
+    setLeftTimerStarted(0)
+    setRightTimerStarted(0)
   }
 
   const handleDown = side => {
@@ -201,9 +200,36 @@ const Content = props => {
     }
   }
 
+  const setBackGroundColor = side => {
+    const colors = {
+      wrong: ['#b2bec3', '#dfe6e9'],
+      correct: ['#00b894', '#55efc4'],
+      down: ['rgba(253, 121, 168, 1.0)', 'rgba(108, 92, 231, 1.0)'],
+      rest: ['rgba(232, 67, 147,1.0)', 'rgba(108, 92, 231, 0.5)']
+    }
+
+    const i = side === 'left' ? 0 : 1
+    if (side === 'left') {
+      if (leftDown === 2 && leftTimer !== answer) return colors.wrong[i]
+      else if (leftDown === 2 && leftTimer === answer) return colors.correct[i]
+      else if (leftDown === 1) return colors.down[i]
+      else return colors.rest[i]
+    } else {
+      if (rightDown === 2 && rightTimer !== answer) return colors.wrong[i]
+      else if (rightDown === 2 && rightTimer === answer) return colors.correct[i]
+      else if (rightDown === 1) return colors.down[i]
+      else return colors.rest[i]
+    }
+  }
+
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)
     window.addEventListener('keyup', handleKeyUp)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
+    }
   }, [])
 
   return (
@@ -211,21 +237,27 @@ const Content = props => {
       <Left
         className="side"
         keydown={leftDown === 1 ? 1 : 0}
+        wrong={leftTimer && leftTimer !== answer}
+        correct={leftTimer && leftTimer === answer}
+        style={{ backgroundColor: setBackGroundColor('left') }}
         onTouchStart={() => handleDown('left')}
         onTouchEnd={() => handleUp('left')}
       >
         {leftDown === 2 ? <Time>{leftTimer}</Time> : null}
         {leftDown === 2 ? leftTimer === answer ? <Yes /> : <Nope /> : null}
       </Left>
+
       <Right
         className="side"
         keydown={rightDown === 1 ? 1 : 0}
+        style={{ backgroundColor: setBackGroundColor('right') }}
         onTouchStart={() => handleDown('right')}
         onTouchEnd={() => handleUp('right')}
       >
         {rightDown === 2 ? <Time>{rightTimer}</Time> : null}
         {rightDown === 2 ? rightTimer === answer ? <Yes /> : <Nope /> : null}
       </Right>
+
       <MathContainer>
         <MathProblem>{mathProblem}</MathProblem>
       </MathContainer>

@@ -19,7 +19,9 @@ const gifs = [
   'Jlys8jzFoI8ne',
   'JoaeMGYYkHpC',
   '3ohs7WhawOVfLMJ14c',
-  '3ohs4C4pHiR4xE70qc'
+  '3ohs4C4pHiR4xE70qc',
+  '1d9qTol1d5xZCTkwIA',
+  'ygx4FycuFuEnl5lpwh'
 ]
 
 const Container = styled.div`
