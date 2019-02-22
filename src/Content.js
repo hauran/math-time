@@ -255,7 +255,8 @@ const Content = props => {
         {leftState === 2 ? (
           <Markings>{leftTimer === answer ? <Check /> : <ErrorX />}</Markings>
         ) : null}
-        {leftState === 2 ? <Time>{leftTimer}</Time> : null}
+        {/* < 1000 to prevent blink/flash */}
+        {leftState === 2 && leftTimer < 1000 ? <Time>{leftTimer}</Time> : null}
         {leftState === 2 ? leftTimer === answer ? <Yes /> : <Nope /> : null}
         {leftState === 1 ? <Confetti /> : null}
       </Left>
@@ -270,7 +271,7 @@ const Content = props => {
         {rightState === 2 ? (
           <Markings>{rightTimer === answer ? <Check /> : <ErrorX />}</Markings>
         ) : null}
-        {rightState === 2 ? <Time>{rightTimer}</Time> : null}
+        {rightState === 2 && rightTimer < 1000 ? <Time>{rightTimer}</Time> : null}
         {rightState === 2 ? rightTimer === answer ? <Yes /> : <Nope /> : null}
         {rightState === 1 ? (
           <div style={{ zIndex: 1 }}>
