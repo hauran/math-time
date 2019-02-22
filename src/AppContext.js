@@ -8,6 +8,12 @@ const AppProvider = props => {
   const [mathProblem, setMathProblem] = useState(null)
   const [answer, setAnswer] = useState(null)
 
+  const [leftState, setLeftState] = useState(0)
+  const [leftTimer, setLeftTimer] = useState(0)
+
+  const [rightState, setRightState] = useState(0)
+  const [rightTimer, setRightTimer] = useState(0)
+
   const randomNumber = () => {
     return Math.floor(Math.random() * MAX_VALUE + 1)
   }
@@ -31,7 +37,23 @@ const AppProvider = props => {
   }, [])
 
   return (
-    <AppContext.Provider value={{ answer, mathProblem, generateMathProblem }}>
+    <AppContext.Provider
+      value={{
+        answer,
+        mathProblem,
+        generateMathProblem,
+
+        leftState,
+        setLeftState,
+        rightState,
+        setRightState,
+
+        leftTimer,
+        setLeftTimer,
+        rightTimer,
+        setRightTimer
+      }}
+    >
       {props.children}
     </AppContext.Provider>
   )

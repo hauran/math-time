@@ -16,13 +16,18 @@ const LEFT_Z_KEY = 90
 const Container = styled.div`
   display: flex;
   width: 100vw;
-  height: 100vh;
   position: relative;
+  @media (min-width: 48em) {
+    height: 100vh;
+  }
+  @media (max-width: 48em) {
+    height: 100%;
+  }
 `
 
 const Side = styled.div`
   flex: 1;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   display: flex;
   align-items: center;
@@ -53,7 +58,7 @@ const MathContainer = styled.div`
 const StartOverContainer = styled.div`
   position: absolute;
   left: calc(50vw - 25px);
-  bottom: 10px;
+  bottom: 120px;
   @media (min-width: 48em) {
     display: none;
   }
@@ -75,6 +80,10 @@ const Display = styled.h1`
 const MathProblem = styled(Display)`
   @media (min-width: 48em) {
     min-width: 150px;
+  }
+  @media (max-width: 48em) {
+    position: relative;
+    top: -30px;
   }
 `
 
@@ -110,89 +119,68 @@ const Markings = styled.div`
 `
 
 const Content = props => {
-  const { answer, mathProblem, generateMathProblem } = useContext(AppContext)
+  const {
+    answer,
+    mathProblem,
+    generateMathProblem,
+
+    leftState,
+    setLeftState,
+    rightState,
+    setRightState,
+
+    leftTimer,
+    setLeftTimer,
+    rightTimer,
+    setRightTimer
+  } = useContext(AppContext)
 
   // sides have 3 states
   // not pressed = 0
   // down = 1
   // up = 2
-  const [leftDown, setLeftDown] = useState(0)
-  const [leftTimer, setLeftTimer] = useState(0)
-  const [leftDone, setLeftDone] = useState(0)
 
-  const [rightDown, setRightDown] = useState(0)
-  const [rightTimer, setRightTimer] = useState(0)
-  const [rightDone, setRightDone] = useState(0)
-
-  let leftTimerStarted = 0,
-    rightTimerStarted = 0
-
-  const toggleTimer = (timer, value) => {
+  const toggleTimer = (timer, state) => {
     const now = new Date().getTime()
-    if (value === 1) {
-      console.log('timer start', now, leftTimerStarted)
-      // start timer
-      if (timer === 'left' && leftTimerStarted === 0) {
-        leftTimerStarted = now
-        console.log('leftTimerStarted', leftTimerStarted)
-      } else if (timer === 'right' && !rightTimerStarted) {
-        rightTimerStarted = now
-      }
+    if (timer === 'left') {
+      if (state === 1) setLeftTimer(now)
+      else if (state === 2) setLeftTimer(Math.floor((now - leftTimer) / 1000))
     } else {
-      //end timer
-      if (timer === 'left') {
-        console.log('timer end', now, leftTimerStarted)
-        setLeftTimer(Math.floor((now - leftTimerStarted) / 1000))
-        setLeftDone(1)
-      } else {
-        setRightTimer(Math.floor((now - rightTimerStarted) / 1000))
-        setRightDone(1)
-      }
+      if (state === 1) setRightTimer(now)
+      else if (state === 2) setRightTimer(Math.floor((now - rightTimer) / 1000))
     }
   }
 
   const reset = () => {
-    setLeftDown(0)
+    setLeftState(0)
     setLeftTimer(0)
-    setRightDown(0)
+    setRightState(0)
     setRightTimer(0)
-    setLeftDone(0)
-    setRightDone(0)
-    leftTimerStarted = null
-    rightTimerStarted = null
   }
 
   const handleDown = side => {
-    if (side === 'left') {
-      if (!leftTimerStarted) {
-        toggleTimer(side, 1)
-        setLeftDown(1)
-      }
-    } else {
-      if (!rightTimerStarted) {
-        toggleTimer(side, 1)
-        setRightDown(1)
-      }
-    }
+    if (side === 'left') setLeftState(1)
+    else setRightState(1)
   }
 
   const handleUp = side => {
-    if (side === 'left') {
-      if (!leftDone) {
-        setLeftDown(2)
-        toggleTimer(side, 0)
-      }
-    } else {
-      if (!rightDone) {
-        setRightDown(2)
-        toggleTimer(side, 0)
-      }
-    }
+    if (side === 'left') setLeftState(2)
+    else setRightState(2)
   }
+
+  useEffect(() => {
+    toggleTimer('left', leftState)
+  }, [leftState])
+
+  useEffect(() => {
+    toggleTimer('right', rightState)
+  }, [rightState])
+
   const startOver = () => {
     reset()
     generateMathProblem()
   }
+
   const handleKeyDown = event => {
     switch (event.keyCode) {
       case SPACE_KEY:
@@ -222,7 +210,7 @@ const Content = props => {
     }
   }
 
-  const setBackGroundColor = side => {
+  const getBackGroundColor = side => {
     const colors = {
       wrong: ['#b2bec3', '#dfe6e9'],
       correct: ['#00b894', '#55efc4'],
@@ -232,14 +220,14 @@ const Content = props => {
 
     const i = side === 'left' ? 0 : 1
     if (side === 'left') {
-      if (leftDown === 2 && leftTimer !== answer) return colors.wrong[i]
-      else if (leftDown === 2 && leftTimer === answer) return colors.correct[i]
-      else if (leftDown === 1) return colors.down[i]
+      if (leftState === 2 && leftTimer !== answer) return colors.wrong[i]
+      else if (leftState === 2 && leftTimer === answer) return colors.correct[i]
+      else if (leftState === 1) return colors.down[i]
       else return colors.rest[i]
     } else {
-      if (rightDown === 2 && rightTimer !== answer) return colors.wrong[i]
-      else if (rightDown === 2 && rightTimer === answer) return colors.correct[i]
-      else if (rightDown === 1) return colors.down[i]
+      if (rightState === 2 && rightTimer !== answer) return colors.wrong[i]
+      else if (rightState === 2 && rightTimer === answer) return colors.correct[i]
+      else if (rightState === 1) return colors.down[i]
       else return colors.rest[i]
     }
   }
@@ -247,7 +235,6 @@ const Content = props => {
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown)
     window.addEventListener('keyup', handleKeyUp)
-
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('keyup', handleKeyUp)
@@ -258,34 +245,34 @@ const Content = props => {
     <Container>
       <Left
         className="side"
-        keydown={leftDown === 1 ? 1 : 0}
+        keydown={leftState === 1 ? 1 : 0}
         wrong={leftTimer && leftTimer !== answer}
         correct={leftTimer && leftTimer === answer}
-        style={{ backgroundColor: setBackGroundColor('left') }}
+        style={{ backgroundColor: getBackGroundColor('left') }}
         onTouchStart={() => handleDown('left')}
         onTouchEnd={() => handleUp('left')}
       >
-        {leftDown === 2 ? (
+        {leftState === 2 ? (
           <Markings>{leftTimer === answer ? <Check /> : <ErrorX />}</Markings>
         ) : null}
-        {leftDown === 2 ? <Time>{leftTimer}</Time> : null}
-        {leftDown === 2 ? leftTimer === answer ? <Yes /> : <Nope /> : null}
-        {leftDown === 1 ? <Confetti /> : null}
+        {leftState === 2 ? <Time>{leftTimer}</Time> : null}
+        {leftState === 2 ? leftTimer === answer ? <Yes /> : <Nope /> : null}
+        {leftState === 1 ? <Confetti /> : null}
       </Left>
 
       <Right
         className="side"
-        keydown={rightDown === 1 ? 1 : 0}
-        style={{ backgroundColor: setBackGroundColor('right') }}
+        keydown={rightState === 1 ? 1 : 0}
+        style={{ backgroundColor: getBackGroundColor('right') }}
         onTouchStart={() => handleDown('right')}
         onTouchEnd={() => handleUp('right')}
       >
-        {rightDown === 2 ? (
+        {rightState === 2 ? (
           <Markings>{rightTimer === answer ? <Check /> : <ErrorX />}</Markings>
         ) : null}
-        {rightDown === 2 ? <Time>{rightTimer}</Time> : null}
-        {rightDown === 2 ? rightTimer === answer ? <Yes /> : <Nope /> : null}
-        {rightDown === 1 ? (
+        {rightState === 2 ? <Time>{rightTimer}</Time> : null}
+        {rightState === 2 ? rightTimer === answer ? <Yes /> : <Nope /> : null}
+        {rightState === 1 ? (
           <div style={{ zIndex: 1 }}>
             <Confetti />
           </div>

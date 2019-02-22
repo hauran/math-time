@@ -6,7 +6,7 @@ const Container = styled.div`
     width: 100px;
   }
   @media (max-width: 48em) {
-    width: 45px;
+    width: 40px;
   }
 
   & img {
