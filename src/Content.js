@@ -96,6 +96,7 @@ const Time = styled(Display)`
   @media (max-width: 48em) {
     top: 100px;
     font-size: 3em;
+    min-width: 80px;
   }
 `
 
@@ -113,7 +114,7 @@ const Markings = styled.div`
     top: 110px;
     & div {
       position: relative;
-      left: 30px;
+      left: 50px;
     }
   }
 `
