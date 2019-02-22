@@ -89,6 +89,7 @@ const MathProblem = styled(Display)`
 
 const Time = styled(Display)`
   position: absolute;
+  min-width: 80px;
   @media (min-width: 48em) {
     top: 150px;
     font-size: 5em;
@@ -96,7 +97,6 @@ const Time = styled(Display)`
   @media (max-width: 48em) {
     top: 100px;
     font-size: 3em;
-    min-width: 80px;
   }
 `
 
@@ -104,14 +104,14 @@ const Markings = styled.div`
   position: absolute;
   z-index: 1;
   @media (min-width: 48em) {
-    top: 150px;
+    top: ${props => (props.correct ? '145px' : '170px')};
     & div {
       position: relative;
-      left: 50px;
+      left: 70px;
     }
   }
   @media (max-width: 48em) {
-    top: 110px;
+    top: ${props => (props.correct ? '100px' : '115px')};
     & div {
       position: relative;
       left: 50px;
@@ -254,7 +254,9 @@ const Content = props => {
         onTouchEnd={() => handleUp('left')}
       >
         {leftState === 2 ? (
-          <Markings>{leftTimer === answer ? <Check /> : <ErrorX />}</Markings>
+          <Markings correct={leftTimer === answer}>
+            {leftTimer === answer ? <Check /> : <ErrorX />}
+          </Markings>
         ) : null}
         {/* < 1000 to prevent blink/flash */}
         {leftState === 2 && leftTimer < 1000 ? <Time>{leftTimer}</Time> : null}
@@ -270,7 +272,9 @@ const Content = props => {
         onTouchEnd={() => handleUp('right')}
       >
         {rightState === 2 ? (
-          <Markings>{rightTimer === answer ? <Check /> : <ErrorX />}</Markings>
+          <Markings correct={rightTimer === answer}>
+            {rightTimer === answer ? <Check /> : <ErrorX />}
+          </Markings>
         ) : null}
         {rightState === 2 && rightTimer < 1000 ? <Time>{rightTimer}</Time> : null}
         {rightState === 2 ? rightTimer === answer ? <Yes /> : <Nope /> : null}

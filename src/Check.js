@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   @media (min-width: 48em) {
-    width: 100px;
+    width: 70px;
   }
   @media (max-width: 48em) {
     width: 65px;
