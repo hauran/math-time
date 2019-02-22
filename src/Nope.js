@@ -8,7 +8,6 @@ const gifs = [
   'mcsE75zh9etKE',
   '3o7aCYje2hvVsaTpio',
   'QObQirfaL3arJiKxeW',
-  '3pZ9PhkJxEiMQPS5lm',
   'llXSgLPOy6DfCNcJDp',
   '4KFwpiwm1JYEZi5Gsq',
   '28j6GjBumA7ZKmaKI9',
@@ -17,16 +16,20 @@ const gifs = [
 ]
 
 const Container = styled.div`
+  z-index: 1;
   @media (min-width: 48em) {
     width: 450px;
+    margin-top: 250px;
   }
   @media (max-width: 48em) {
     width: 50vw;
+    margin-top: -200px;
   }
 
   & img {
     max-width: 100%;
     max-height: 100%;
+    width: 40vw;
   }
 `
 
@@ -38,7 +41,7 @@ const Gify = props => {
 
   useEffect(() => {
     const x = randomGif()
-    setGif(`https://i.giphy.com/media/${x}/giphy.webp`)
+    setGif(`https://i.giphy.com/media/${x}/giphy.gif`)
   }, [])
 
   return (

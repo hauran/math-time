@@ -12,7 +12,7 @@ const Container = styled.div`
 const StartOver = props => {
   return (
     <Container>
-      <img src="https://i.giphy.com/media/2wY28XHCbVrgwS5wEr/giphy.webp" alt="start over" />
+      <img src="https://i.giphy.com/media/2wY28XHCbVrgwS5wEr/giphy.gif" alt="start over" />
     </Container>
   )
 }

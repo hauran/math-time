@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import Yes from './Yes'
 import Nope from './Nope'
 import StartOver from './StartOver'
+import ErrorX from './ErrorX'
+import Check from './Check'
+import Confetti from './Confetti'
 
 import { AppContext } from './AppContext'
 
@@ -49,8 +52,8 @@ const MathContainer = styled.div`
 
 const StartOverContainer = styled.div`
   position: absolute;
-  left: 10px;
-  top: 10px;
+  left: calc(50vw - 25px);
+  bottom: 10px;
   @media (min-width: 48em) {
     display: none;
   }
@@ -87,6 +90,25 @@ const Time = styled(Display)`
   }
 `
 
+const Markings = styled.div`
+  position: absolute;
+  z-index: 1;
+  @media (min-width: 48em) {
+    top: 150px;
+    & div {
+      position: relative;
+      left: 50px;
+    }
+  }
+  @media (max-width: 48em) {
+    top: 110px;
+    & div {
+      position: relative;
+      left: 30px;
+    }
+  }
+`
+
 const Content = props => {
   const { answer, mathProblem, generateMathProblem } = useContext(AppContext)
 
@@ -96,35 +118,35 @@ const Content = props => {
   // up = 2
   const [leftDown, setLeftDown] = useState(0)
   const [leftTimer, setLeftTimer] = useState(0)
-  const [leftTimerStarted, setLeftTimerStarted] = useState(0)
+  const [leftDone, setLeftDone] = useState(0)
 
   const [rightDown, setRightDown] = useState(0)
   const [rightTimer, setRightTimer] = useState(0)
-  const [rightTimerStarted, setRightTimerStarted] = useState(0)
+  const [rightDone, setRightDone] = useState(0)
 
-  let leftDone = 0,
-    rightDone = 0
+  let leftTimerStarted = 0,
+    rightTimerStarted = 0
 
   const toggleTimer = (timer, value) => {
     const now = new Date().getTime()
     if (value === 1) {
-      // console.log('timer start', now, leftTimerStarted)
+      console.log('timer start', now, leftTimerStarted)
       // start timer
       if (timer === 'left' && leftTimerStarted === 0) {
-        setLeftTimerStarted(now)
-        // console.log('leftTimerStarted', leftTimerStarted, now)
+        leftTimerStarted = now
+        console.log('leftTimerStarted', leftTimerStarted)
       } else if (timer === 'right' && !rightTimerStarted) {
-        setRightTimerStarted(now)
+        rightTimerStarted = now
       }
     } else {
       //end timer
       if (timer === 'left') {
-        // console.log('timer end', now, leftTimerStarted)
+        console.log('timer end', now, leftTimerStarted)
         setLeftTimer(Math.floor((now - leftTimerStarted) / 1000))
-        leftDone = 1
+        setLeftDone(1)
       } else {
         setRightTimer(Math.floor((now - rightTimerStarted) / 1000))
-        rightDone = 1
+        setRightDone(1)
       }
     }
   }
@@ -134,10 +156,10 @@ const Content = props => {
     setLeftTimer(0)
     setRightDown(0)
     setRightTimer(0)
-    leftDone = 0
-    rightDone = 0
-    setLeftTimerStarted(0)
-    setRightTimerStarted(0)
+    setLeftDone(0)
+    setRightDone(0)
+    leftTimerStarted = null
+    rightTimerStarted = null
   }
 
   const handleDown = side => {
@@ -243,8 +265,12 @@ const Content = props => {
         onTouchStart={() => handleDown('left')}
         onTouchEnd={() => handleUp('left')}
       >
+        {leftDown === 2 ? (
+          <Markings>{leftTimer === answer ? <Check /> : <ErrorX />}</Markings>
+        ) : null}
         {leftDown === 2 ? <Time>{leftTimer}</Time> : null}
         {leftDown === 2 ? leftTimer === answer ? <Yes /> : <Nope /> : null}
+        {leftDown === 1 ? <Confetti /> : null}
       </Left>
 
       <Right
@@ -254,8 +280,16 @@ const Content = props => {
         onTouchStart={() => handleDown('right')}
         onTouchEnd={() => handleUp('right')}
       >
+        {rightDown === 2 ? (
+          <Markings>{rightTimer === answer ? <Check /> : <ErrorX />}</Markings>
+        ) : null}
         {rightDown === 2 ? <Time>{rightTimer}</Time> : null}
         {rightDown === 2 ? rightTimer === answer ? <Yes /> : <Nope /> : null}
+        {rightDown === 1 ? (
+          <div style={{ zIndex: 1 }}>
+            <Confetti />
+          </div>
+        ) : null}
       </Right>
 
       <MathContainer>
