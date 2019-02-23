@@ -20,7 +20,15 @@ const gifs = [
   '3ohs7WhawOVfLMJ14c',
   '3ohs4C4pHiR4xE70qc',
   '1d9qTol1d5xZCTkwIA',
-  'ygx4FycuFuEnl5lpwh'
+  'ygx4FycuFuEnl5lpwh',
+  '6InGIyfwSIoIU',
+  '3oKIPv4pMwu3NQtKhO',
+  'nvKjkfWIl2msw',
+  'rPGkUqdQkB7xe',
+  'W0DTCPYu9vrhu',
+  'YS3j8cDQ5Ff68',
+  '2zoLjKxnxHYS5fTJrr',
+  '5e1UBubfNAM2BSnwmF'
 ]
 
 const Container = styled.div`

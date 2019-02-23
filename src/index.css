@@ -26,3 +26,10 @@ code {
   user-select: none;
   touch-action: manipulation;
 }
+
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

@@ -12,7 +12,11 @@ const gifs = [
   '4KFwpiwm1JYEZi5Gsq',
   '28j6GjBumA7ZKmaKI9',
   '9oICl27yHGp3wAXUW6',
-  '3d6WSrv3PbyZq1vdjC'
+  '3d6WSrv3PbyZq1vdjC',
+  '3og0ILLYnJryuFD7Gw',
+  '3ohhwkMaNYF1TA0NJS',
+  'EEFEyXLO9E0YE',
+  '1d5ZfBGrEQXfzx4sYf'
 ]
 
 const Container = styled.div`
