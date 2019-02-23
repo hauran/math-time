@@ -2,7 +2,6 @@
   "name": "math-time",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://hauran.github.io/math-time/",
   "devDependencies": {
     "react-scripts": "2.1.5"
   },
