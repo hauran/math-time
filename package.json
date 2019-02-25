@@ -10,7 +10,6 @@
     "is-touch-device": "1.0.1",
     "react": "16.8.2",
     "react-dom": "16.8.2",
-    "react-hammerjs": "1.0.1",
     "styled-components": "4.1.3"
   },
   "scripts": {
