@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react'
 import isTouchDevice from 'is-touch-device'
 
-const MAX_VALUE = 20
 
 const AppContext = createContext()
 
@@ -20,24 +19,49 @@ const AppProvider = props => {
 
   const [showHelp, setShowHelp] = useState(0)
 
-  const randomNumber = () => {
-    return Math.floor(Math.random() * MAX_VALUE + 1)
+  const randomNumber = (max_value) => {
+    return Math.floor(Math.random() * max_value + 1)
   }
 
-  const generateMathProblem = () => {
-    let num1 = randomNumber()
-    let temp = randomNumber()
-    while (temp === num1) {
-      temp = randomNumber()
-    }
-    const answer = num1 > temp ? num1 : temp
-    num1 = num1 > temp ? temp : num1
-    const num2 = answer - num1
+  const generateAdditionProblem = () => {
+    const max_value = 50
+    const num1 = randomNumber(max_value)
+    const num2 = randomNumber(max_value)
+    const answer = num1 + num2
     setMathProblem(`${num1} + ${num2}`)
     setAnswer(answer)
   }
 
-  // do on initial load only
+  const generateSubtractionProblem = () => {
+    const max_value = 20
+    let num1 = randomNumber(max_value)
+    let num2 = randomNumber(max_value)
+    while (num2 === num1) {
+      num2 = randomNumber(max_value)
+    }
+    const biggerNumber = num1 > num2 ? num1 : num2
+    const smallerNumber = num1 < num2 ? num1 : num2
+    const answer = biggerNumber - smallerNumber
+    setMathProblem(`${biggerNumber} - ${smallerNumber}`)
+    setAnswer(answer)
+  }
+
+  const generateMultiplicationProblem = () => {
+    const max_value = 5
+    let num1 = randomNumber(max_value)
+    let num2 = randomNumber(max_value)
+
+    const answer = num1 * num2
+    setMathProblem(`${num1} x ${num2}`)
+    setAnswer(answer)
+  }
+
+  const generateMathProblem = () => {
+    const problems = [generateMultiplicationProblem , generateAdditionProblem, generateSubtractionProblem]
+    return problems[randomNumber(problems.length)-1]()
+  }
+
+  // do on initial load only  
   useEffect(() => {
     generateMathProblem()
     setTouchDevice(isTouchDevice())
