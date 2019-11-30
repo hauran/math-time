@@ -41,13 +41,12 @@ const Container = styled.div`
 const Desktop = () => {
   return (
     <Container>
-      <h1>Math Time is a 2 player game.</h1>
-      <h2>right side: P</h2>
-      <h2>left side: Q</h2>
+      <h1>Math Time Desktop</h1>
+      <h2>Boop</h2>
       <p>
-        Hold down your key for as many seconds as the answer to the math problem.
+        Instructions
         <br />
-        For example, if the math problem is <b>2 + 6</b>, hold down your key for <b>8</b> seconds.
+        More Instructions
       </p>
 
       <h2>Space bar to play again.</h2>
@@ -58,12 +57,15 @@ const Desktop = () => {
 const Mobile = () => {
   return (
     <Container>
-      <h1>Math Time is a 2 player game.</h1>
-      <h2>Tap and hold your side for as many seconds as the answer to the math problem.</h2>
+      <h1>Math Time Mobile</h1>
+      <h2>Boop</h2>
       <p>
-        For example, if the math problem is <b>2 + 6</b>, hold down your side for <b>8</b> seconds.
+        Instructions
+        <br />
+        More Instructions
       </p>
-      <h2>Tap the lemon to play again.</h2>
+
+      <h2>Space bar to play again.</h2>
     </Container>
   )
 }

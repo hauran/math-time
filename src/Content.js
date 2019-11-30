@@ -5,12 +5,11 @@ import Nope from './Nope'
 import Confetti from './Confetti'
 import Gif from './Gif'
 import Help from './Help'
+import Digits from './Digits'
+import Screen from './Screen'
+
 
 import { AppContext } from './AppContext'
-
-const SPACE_KEY = 32
-const RIGHT_KEY = 80 // P
-const LEFT_KEY = 81 // Q
 
 const Container = styled.div`
   display: flex;
@@ -30,34 +29,39 @@ const Side = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: ${props => props.submitted ? 'flex-start' : 'center'};
   flex-direction: column;
   position: relative;
 `
 
 const Left = styled(Side)``
 
-const Right = styled(Side)``
-
 const MathContainer = styled.div`
-  position: absolute;
-  left: 0;
-  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  @media (min-width: 48em) {
+  /* @media (min-width: 48em) {
     top: 50px;
   }
+  */
   @media (max-width: 48em) {
-    top: 30px;
-  }
+    bottom: ${props => props.correct ? '150px' : 'initial'};
+    position: ${props => props.correct ? 'absolute' : 'initial'};
+  } 
 `
+
+const Calculator = styled.section`
+  width:95%;
+  max-width:400px;
+  margin-top:30px;
+  /* margin-top:${props => props.inCorrect ? '200px' : '0px'}; */
+`
+
 
 const StartOverContainer = styled.div`
   position: absolute;
   left: calc(50vw - 25px);
-  bottom: 120px;
+  bottom: 50px;
 `
 
 const HelpIconContainer = styled.div`
@@ -107,45 +111,21 @@ const Display = styled.h1`
 `
 
 const MathProblem = styled(Display)`
+  font-size:2.5em;
   @media (min-width: 48em) {
     min-width: 150px;
   }
   @media (max-width: 48em) {
     position: relative;
-    top: -30px;
   }
 `
 
-const Time = styled(Display)`
-  position: absolute;
-  min-width: 80px;
-  @media (min-width: 48em) {
-    top: 150px;
-    font-size: 5em;
-  }
-  @media (max-width: 48em) {
-    top: 130px;
-    font-size: 3em;
-  }
-`
-
-const Markings = styled.div`
-  position: absolute;
-  z-index: 1;
-  @media (min-width: 48em) {
-    top: ${props => (props.correct ? '145px' : '170px')};
-    & div {
-      position: relative;
-      left: 70px;
-    }
-  }
-  @media (max-width: 48em) {
-    top: ${props => (props.correct ? '130px' : '145px')};
-    & div {
-      position: relative;
-      left: 50px;
-    }
-  }
+const DisplayStuff = styled.section`
+  margin-top:${props => props.submitted ? 'initial' : '107px'};
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 const Content = props => {
@@ -155,124 +135,36 @@ const Content = props => {
     generateMathProblem,
     showHelp,
     setShowHelp,
-
-    leftState,
-    setLeftState,
-    rightState,
-    setRightState,
-
-    leftTimer,
-    setLeftTimer,
-    rightTimer,
-    setRightTimer,
-
-    leftCorrect,
-    rightCorrect
+    gameState,
+    setGameState,
+    isResponseCorrect,
   } = useContext(AppContext)
-
-  // sides have 3 states
-  // not pressed = 0
-  // down = 1
-  // up = 2
-
-  const toggleTimer = (timer, state) => {
-    const now = new Date().getTime()
-    if (timer === 'left') {
-      if (state === 1) setLeftTimer(now)
-      else if (state === 2) setLeftTimer(Math.floor((now - leftTimer) / 1000))
-    } else {
-      if (state === 1) setRightTimer(now)
-      else if (state === 2) setRightTimer(Math.floor((now - rightTimer) / 1000))
-    }
-  }
-
+  
   const reset = () => {
-    setLeftState(0)
-    setLeftTimer(0)
-    setRightState(0)
-    setRightTimer(0)
+    setGameState(0)
   }
-
-  const handleDown = side => {
-    if (side === 'left') setLeftState(1)
-    else setRightState(1)
-  }
-
-  const handleUp = side => {
-    if (side === 'left') setLeftState(2)
-    else setRightState(2)
-  }
-
-  useEffect(() => {
-    toggleTimer('left', leftState)
-  }, [leftState])
-
-  useEffect(() => {
-    toggleTimer('right', rightState)
-  }, [rightState])
 
   const startOver = () => {
     reset()
     generateMathProblem()
   }
 
-  const handleKeyDown = event => {
-    switch (event.keyCode) {
-      case SPACE_KEY:
-        startOver()
-        break
-      case LEFT_KEY:
-        handleDown('left')
-        break
-      case RIGHT_KEY:
-        handleDown('right')
-        break
-      default:
-        break
-    }
-  }
-
-  const handleKeyUp = event => {
-    switch (event.keyCode) {
-      case LEFT_KEY:
-        handleUp('left')
-        break
-      case RIGHT_KEY:
-        handleUp('right')
-        break
-      default:
-        break
-    }
-  }
-
   const getBackGroundColor = side => {
     const colors = {
-      wrong: ['#b2bec3', '#dfe6e9'],
-      correct: ['#00b894', '#55efc4'],
-      down: ['rgba(253, 121, 168, 1.0)', 'rgba(108, 92, 231, 1.0)'],
-      rest: ['rgba(232, 67, 147,1.0)', 'rgba(108, 92, 231, 0.5)']
+      wrong: '#b2bec3',
+      correct: '#00b894',
+      rest: 'rgba(232, 67, 147,1.0)'
     }
-
-    const i = side === 'left' ? 0 : 1
-    if (side === 'left') {
-      if (leftCorrect === false) return colors.wrong[i]
-      else if (leftCorrect) return colors.correct[i]
-      else if (leftState === 1) return colors.down[i]
-      else return colors.rest[i]
-    } else {
-      if (rightCorrect === false) return colors.wrong[i]
-      else if (rightCorrect) return colors.correct[i]
-      else if (rightState === 1) return colors.down[i]
-      else return colors.rest[i]
-    }
+    if (gameState === 0) return colors.rest
+    else if (gameState === 2 && isResponseCorrect === false) return colors.wrong
+    else if (gameState === 2 && isResponseCorrect) return colors.correct
+    else return colors.rest
   }
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown)
-    window.addEventListener('keyup', handleKeyUp)
+    // on load
     return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-      window.removeEventListener('keyup', handleKeyUp)
+      // on unload
     }
   }, [])
 
@@ -280,50 +172,30 @@ const Content = props => {
     <Container>
       <Left
         className="side"
-        keydown={leftState === 1 ? 1 : 0}
-        style={{ backgroundColor: getBackGroundColor('left') }}
-        onTouchStart={() => handleDown('left')}
-        onTouchEnd={() => handleUp('left')}
+        submitted={gameState === 2}
+        style={{ backgroundColor: getBackGroundColor() }}
       >
-        {leftState === 2 ? (
-          <Markings correct={leftCorrect}>
-            {leftCorrect ? (
-              <Gif alt="correctCheck" id="8PmStlLCFNZrs35q5c" wDesktop="100" wMobile="65" />
-            ) : (
-              <Gif alt="errorX" id="3og0IvGtnDyPHCRaYU" wDesktop="70" wMobile="40" />
-            )}
-          </Markings>
-        ) : null}
-        {/* < 1000 to prevent blink/flash */}
-        {leftState === 2 && leftTimer < 1000 ? <Time>{leftTimer}</Time> : null}
-        {leftState === 2 ? leftCorrect ? <Yes /> : <Nope /> : null}
-        {leftState === 1 ? <Confetti /> : null}
+
+        {gameState === 2 ? isResponseCorrect ? <Yes /> : <Nope /> : null}
+        {gameState === 2 && isResponseCorrect ? <Confetti /> : null}
+
+
+        <DisplayStuff submitted={gameState === 2} >
+          <MathContainer correct={gameState === 2 && isResponseCorrect}>
+            <MathProblem>{mathProblem}</MathProblem>
+          </MathContainer>
+
+          {gameState === 2 && isResponseCorrect ?
+            null
+          :
+            <Calculator inCorrect={gameState === 2 && !isResponseCorrect}>
+              <Screen />
+              <Digits />
+            </Calculator>
+          }
+        </DisplayStuff>
+
       </Left>
-
-      <Right
-        className="side"
-        keydown={rightState === 1 ? 1 : 0}
-        style={{ backgroundColor: getBackGroundColor('right') }}
-        onTouchStart={() => handleDown('right')}
-        onTouchEnd={() => handleUp('right')}
-      >
-        {rightState === 2 ? (
-          <Markings correct={rightCorrect}>
-            {rightCorrect ? (
-              <Gif alt="correctCheck" id="8PmStlLCFNZrs35q5c" wDesktop="100" wMobile="65" />
-            ) : (
-              <Gif alt="errorX" id="3og0IvGtnDyPHCRaYU" wDesktop="70" wMobile="40" />
-            )}
-          </Markings>
-        ) : null}
-        {rightState === 2 && rightTimer < 1000 ? <Time>{rightTimer}</Time> : null}
-        {rightState === 2 ? rightCorrect ? <Yes /> : <Nope /> : null}
-        {rightState === 1 ? <Confetti /> : null}
-      </Right>
-
-      <MathContainer>
-        <MathProblem>{mathProblem}</MathProblem>
-      </MathContainer>
 
       {touchDevice ? (
         <StartOverContainer onClick={startOver} show={touchDevice}>

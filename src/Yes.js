@@ -36,18 +36,17 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media (min-width: 48em) {
+  /* @media (min-width: 48em) {
     width: 450px;
     margin-top: 250px;
-  }
+  } */
   @media (max-width: 48em) {
-    width: 50vw;
-  }
-
-  & img {
-    max-width: 100%;
-    max-height: 100%;
-    width: 40vw;
+    margin-top:10vh;
+    & img {
+      max-width: 100%;
+      max-height: 100%;
+      height: 400px;
+    }
   }
 `
 

@@ -1,5 +1,5 @@
-import { createContext, useEffect } from 'react'
-import { makeObs, computed } from 'react-obs'
+import { createContext } from 'react'
+import { makeObs } from 'react-obs'
 
 const MAX_VALUE = 20
 
