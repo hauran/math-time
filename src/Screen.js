@@ -12,6 +12,7 @@ const Container = styled.div`
   display:flex;
   align-items:center;
   justify-content:flex-end;
+  border-radius:5px;
 `
 
 const Digit = props => {
@@ -19,7 +20,7 @@ const Digit = props => {
     response,
   } = useContext(AppContext)
   return (
-    <Container>{response}</Container>
+    <Container onClick={props.onClick}>{response}</Container>
   )
 }
 

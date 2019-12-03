@@ -1,7 +1,26 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
+import HelpIcon from './HelpIcon'
 
 import { AppContext } from './AppContext'
+
+const HelpInfoContainer = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  @media (min-width: 48em) {
+    padding-top: 100px;
+  }
+  @media (max-width: 48em) {
+    padding-top: 50px;
+  }
+`
 
 const Container = styled.div`
   background-color: rgba(99, 205, 218, 1);
@@ -71,9 +90,20 @@ const Mobile = () => {
 }
 
 const Help = props => {
-  const { touchDevice } = useContext(AppContext)
-
-  return <div>{touchDevice ? <Mobile /> : <Desktop />}</div>
+const { showHelp, touchDevice, setShowHelp } = useContext(AppContext)
+  return (
+    <>
+      <HelpIcon/>
+      {showHelp ? 
+      <HelpInfoContainer onClick={() => setShowHelp(0)} onTouchEnd={() => setShowHelp(0)}>
+        {touchDevice ? <Mobile /> : <Desktop />}
+      </HelpInfoContainer>
+      :null}
+    </>
+  )
 }
+
+
+
 
 export default Help

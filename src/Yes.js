@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
+
+import { AppContext } from './AppContext'
 
 const gifs = [
   'Wp5CIL0eQj8D6',
@@ -51,6 +53,10 @@ const Container = styled.div`
 `
 
 const Yes = props => {
+  const {
+    startOver
+  } = useContext(AppContext)
+
   const randomGif = () => {
     return gifs[Math.floor(Math.random() * gifs.length)]
   }
@@ -62,7 +68,7 @@ const Yes = props => {
   }, [])
 
   return (
-    <Container>
+    <Container onClick={startOver}>
       <img src={gif} alt="nope" />
     </Container>
   )

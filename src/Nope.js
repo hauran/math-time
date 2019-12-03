@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import classnames from 'classnames'
+
+import { AppContext } from './AppContext'
 
 const gifs = [
   '26xBIgTMTE5b3Ware',
@@ -24,33 +27,59 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  @media (min-width: 769px) {
-    width: 450px;
-    /* margin-top: 250px; */
+  transform:translate3d(0, -300px, 0);
+  transition: transform .2s ease-in-out;
+  visibility:hidden;
+  & img {
+    max-width: 100%;
+    max-height: 100%;
+    height:230px;
   }
+  &.show {  
+    visibility:visible;
+    transform:translate3d(0, 0, 0);
+  }
+
+  /* desktop */
+  @media (min-width: 769px) {
+    margin-top:100px;
+  }
+
+  /* tablet & phone */
   @media (max-width: 769px) {
     margin-top:20px;
-    & img {
-      max-width: 100%;
-      max-height: 100%;
-      height:230px;
-    }
   }
 `
 
 const Gify = props => {
+  const {
+    isWrong, wrong_duration
+  } = useContext(AppContext)
+  
+  const [gif, setGif] = useState(null)
+  const [show, setShow] = useState(false)
   const randomGif = () => {
     return gifs[Math.floor(Math.random() * gifs.length)]
   }
-  const [gif, setGif] = useState(null)
 
   useEffect(() => {
-    const x = randomGif()
-    setGif(`https://i.giphy.com/media/${x}/giphy.gif`)
-  }, [])
+    if (isWrong) {
+      const x = randomGif()
+      setGif(`https://i.giphy.com/media/${x}/giphy.gif`)
+
+      const s = setTimeout(() => {
+        setShow(true)
+        const h = setTimeout(() => {
+          setShow(false)
+        }, wrong_duration)
+        return () => clearTimeout(h)
+      }, 100);
+      return () => clearTimeout(s);
+    }
+  }, [isWrong])
 
   return (
-    <Container>
+    <Container className={classnames({ show: show })}>
       <img src={gif} alt="nope" />
     </Container>
   )

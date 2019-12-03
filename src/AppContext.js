@@ -1,21 +1,17 @@
 import React, { createContext, useState, useEffect } from 'react'
 import isTouchDevice from 'is-touch-device'
 
-
 const AppContext = createContext()
+const wrong_duration = 2500
 
 const AppProvider = props => {
   const [touchDevice, setTouchDevice] = useState(null)
   const [mathProblem, setMathProblem] = useState(null)
   const [answer, setAnswer] = useState(null)
   const [response, setResponse] = useState(null)
-  const [numbers, setNumbers] = useState([])
-
-  const [gameState, setGameState] = useState(0)
-  const [isResponseCorrect, setIsResponseCorrect] = useState(null)
-
+  const [isWrong, setIsWrong] = useState(false)
+  const [isCorrect, setIsCorrect] = useState(false)
   const [showHelp, setShowHelp] = useState(0)
-
   const randomNumber = (max_value) => {
     return Math.floor(Math.random() * max_value + 1)
   }
@@ -25,7 +21,6 @@ const AppProvider = props => {
     const num1 = randomNumber(max_value)
     const num2 = randomNumber(max_value)
     const answer = num1 + num2
-    setNumbers([num1, num2])
     setMathProblem(`${num1} + ${num2}`)
     setAnswer(answer)
   }
@@ -40,7 +35,6 @@ const AppProvider = props => {
     const biggerNumber = num1 > num2 ? num1 : num2
     const smallerNumber = num1 < num2 ? num1 : num2
     const answer = biggerNumber - smallerNumber
-    setNumbers([num1, num2])
     setMathProblem(`${biggerNumber} - ${smallerNumber}`)
     setAnswer(answer)
   }
@@ -50,7 +44,6 @@ const AppProvider = props => {
     let num1 = randomNumber(max_value)
     let num2 = randomNumber(max_value)
     const answer = num1 * num2
-    setNumbers([num1, num2])
     setMathProblem(`${num1} x ${num2}`)
     setAnswer(answer)
   }
@@ -67,18 +60,38 @@ const AppProvider = props => {
   
   const checkResponse = () => {
     if (!response) return
-    setGameState(2)
     if (response === answer){
       setResponse(null)
-      setIsResponseCorrect(true)
       setMathProblem(`${mathProblem} = ${answer}`)
+      setIsWrong(false)
+      setIsCorrect(true)
     }
     else {
-      setIsResponseCorrect(false)
-      setResponse(null)
+      setMathProblem(`${mathProblem} ≠ ${response}`)
+      setIsWrong(true)
+      setIsCorrect(false)
     }
   }
 
+  const startOver = () => {
+    generateMathProblem()
+    setIsWrong(false)
+    setIsCorrect(false)
+  }
+
+  useEffect(() => {
+    if (isWrong) {
+      const timer = setTimeout(() => {
+        const i = mathProblem.indexOf('≠')
+
+        setResponse(null)
+        setMathProblem(mathProblem.substr(0,i-1))
+        setIsWrong(false)
+        setIsCorrect(false)
+      }, wrong_duration)
+      return () => clearTimeout(timer)
+    }
+  }, [isWrong])
 
   // do on initial load only  
   useEffect(() => {
@@ -86,27 +99,25 @@ const AppProvider = props => {
     setTouchDevice(isTouchDevice())
   }, [])
 
-  // compute correct answers
-  // useEffect(() => {
-  //   if (gameState !== 2) setIsResponseCorrect(null)
-  //   else setIsResponseCorrect(true) //todo
-  // }, [gameState])
-
   return (
     <AppContext.Provider
       value={{
         touchDevice,
         answer,
         response,
+        setResponse,
         mathProblem,
         generateMathProblem,
         showHelp,
         setShowHelp,
         digitPress,
         checkResponse,
-        gameState,
-        setGameState,
-        isResponseCorrect,
+        isWrong,
+        setIsWrong,
+        isCorrect,
+        setIsCorrect,
+        startOver,
+        wrong_duration
       }}
     >
       {props.children}
