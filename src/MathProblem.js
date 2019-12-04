@@ -14,6 +14,7 @@ const Problem = styled.h1`
   text-align: center;
   border-bottom: 5px dashed rgba(0, 0, 0, 0.7);
   min-width: 150px;
+  
   transition: background-color,color 0.2s ease-in-out;
   &.wrong {
     border-radius: 5px;
@@ -24,11 +25,11 @@ const Problem = styled.h1`
   
   /* desktop */
   @media (min-width: 769px) {
-    padding:30px
+    padding:30px;
   }
   /* tablet */
   @media (max-width: 768px) {
-    padding:20px
+    padding:20px;
   }
   /* phone */
   @media only screen 
