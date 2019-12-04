@@ -77,15 +77,20 @@ const AppProvider = props => {
     generateMathProblem()
     setIsWrong(false)
     setIsCorrect(false)
+    setResponse(null)
+  }
+
+  const resetMathProblem = () => {
+    const i = mathProblem.indexOf('≠')
+    if (i > -1)
+      setMathProblem(mathProblem.substr(0, i - 1))
   }
 
   useEffect(() => {
     if (isWrong) {
       const timer = setTimeout(() => {
-        const i = mathProblem.indexOf('≠')
-
+        resetMathProblem()
         setResponse(null)
-        setMathProblem(mathProblem.substr(0,i-1))
         setIsWrong(false)
         setIsCorrect(false)
       }, wrong_duration)
@@ -117,6 +122,7 @@ const AppProvider = props => {
         isCorrect,
         setIsCorrect,
         startOver,
+        resetMathProblem,
         wrong_duration
       }}
     >

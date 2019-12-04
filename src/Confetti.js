@@ -9,10 +9,12 @@ const Container = styled.div`
   left:0;
   background-image: url(https://media.giphy.com/media/WNJATm9pwnjpjI1i0g/giphy.gif);
   background-repeat: repeat-x;
-  @media (min-width: 48em) {
+  /* desktop */
+  @media (min-width: 769px) {
     background-size: contain;
   }
-  @media (max-width: 48em) {
+  /* tablet & mobile */
+  @media (max-width: 768px) {
     background-size: cover;
   }
 `

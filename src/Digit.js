@@ -15,14 +15,17 @@ const Container = styled.div`
     background-color: #333333;
   }
 
-  @media (min-width: 48em) {
+  /* desktop */
+  @media (min-width: 769px) {
     height: 70px;
     font-size:25px;
   }
-  @media (max-width: 48em) {
+  /* tablet */
+  @media (max-width: 768px) {
     height: 70px;
     font-size:25px
   }
+  /*  phone */
   @media only screen 
     and (min-device-width: 375px) 
     and (max-device-width: 667px) 

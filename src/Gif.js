@@ -3,10 +3,12 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   z-index:1;
-  @media (min-width: 48em) {
+  /* desktop */
+  @media (min-width: 769px) {
     width: ${props => `${props.wDesktop}px`};
   }
-  @media (max-width: 48em) {
+  /* tablet & phone */
+  @media (max-width: 768px) {
     width: ${props => `${props.wMobile}px`};
   }
 

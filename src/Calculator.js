@@ -14,12 +14,13 @@ const Container = styled.section`
   opacity:initial;
   transition: opacity .2s ease-in-out;
   &.wrong {
-    opacity:40%;
+    opacity:30%;
   }
   &.correct {
     visibility:hidden;
   }
-  @media (max-width: 48em) {
+  /* tablet & mobile */
+  @media (max-width: 768px) {
     padding:20px
   } 
 `
@@ -31,7 +32,7 @@ const Calculator = props => {
   const erase = () => setResponse(null)
   return (
     <Container className={classnames({ wrong: isWrong, correct:isCorrect})}>
-      <Screen onClick={erase} />
+      <Screen onClick={() => !isWrong && erase()} />
       <Digits />
     </Container>
   )

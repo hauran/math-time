@@ -14,11 +14,11 @@ const Container = styled.div`
   width: 100vw;
   position: relative;
   /* desktop */
-  @media (min-width: 48em) {
+  @media (min-width: 769px) {
     height: 100vh;
   }
   /* tablet & phones */
-  @media (max-width: 48em) {
+  @media (max-width: 768px) {
     height: 100%;
   }
 `
@@ -33,13 +33,15 @@ const Main = styled.div`
   flex-direction: column;
   position: relative;
   /* desktop */
-  @media (min-width: 48em) {
-    /* height: 70px;
-    font-size:25px; */
+  @media screen 
+    and (min-device-width: 1200px)  { 
+      padding-top:100px;
   }
 
   /* tablet */
-  @media (max-width: 48em) {
+  @media only screen 
+    and (min-device-width: 768px) 
+    and (max-device-width: 1024px) {
     padding-top:100px;
   }
 
@@ -47,7 +49,7 @@ const Main = styled.div`
   @media only screen 
     and (min-device-width: 375px) 
     and (max-device-width: 667px){ 
-      padding-top:30px;
+      padding-top:0px;
   }
 `
 
@@ -72,8 +74,8 @@ const Content = props => {
   return (
     <Container>
       <Main style={{ backgroundColor: getBackGroundColor() }}>
-        {isCorrect ? <><Yes/><Confetti /></> : null}
-        <Nope />
+        {isCorrect ? <><Yes /><Confetti /></> : null}
+        {isWrong ? <Nope /> : null}
         <DisplayStuff/>
       </Main>
       {/* <Help /> */}

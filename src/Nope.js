@@ -29,31 +29,22 @@ const Container = styled.div`
   justify-content: center;
   transform:translate3d(0, -300px, 0);
   transition: transform .2s ease-in-out;
-  visibility:hidden;
+  position:absolute;
+  left:0; right:0;
   & img {
     max-width: 100%;
     max-height: 100%;
     height:230px;
-  }
-  &.show {  
-    visibility:visible;
-    transform:translate3d(0, 0, 0);
-  }
-
-  /* desktop */
-  @media (min-width: 769px) {
-    margin-top:100px;
-  }
-
-  /* tablet & phone */
-  @media (max-width: 769px) {
     margin-top:20px;
+  }
+  &.show {
+    transform:translate3d(0, 0, 0);
   }
 `
 
 const Gify = props => {
   const {
-    isWrong, wrong_duration
+    setIsWrong, isWrong, wrong_duration, setResponse, resetMathProblem
   } = useContext(AppContext)
   
   const [gif, setGif] = useState(null)
@@ -78,8 +69,15 @@ const Gify = props => {
     }
   }, [isWrong])
 
+  const reset = () => {
+    setShow(false)
+    setIsWrong(false)
+    setResponse(null)
+    resetMathProblem()
+  }
+
   return (
-    <Container className={classnames({ show: show })}>
+    <Container className={classnames({ show: show })} onClick={reset}>
       <img src={gif} alt="nope" />
     </Container>
   )

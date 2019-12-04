@@ -14,10 +14,12 @@ const HelpInfoContainer = styled.div`
   z-index: 1;
   display: flex;
   justify-content: center;
-  @media (min-width: 48em) {
+  /* desktop */
+  @media (min-width: 769px) {
     padding-top: 100px;
   }
-  @media (max-width: 48em) {
+  /* tablet & phone */
+  @media (max-width: 768px) {
     padding-top: 50px;
   }
 `
@@ -28,7 +30,8 @@ const Container = styled.div`
   border: 5px dashed rgba(0, 0, 0, 0.4);
   font-weight: 600;
   color: rgba(0, 0, 0, 0.7);
-  @media (min-width: 48em) {
+  /* desktop */
+  @media (min-width: 769px) {
     padding: 30px;
     max-width: 800px;
     & h1 {
@@ -43,7 +46,8 @@ const Container = styled.div`
       line-height:1.4em;
     }
   }
-  @media (max-width: 48em) {
+  /* tablet & phone */
+  @media (max-width: 768px) {
     padding: 15px;
     max-width: 70vw;
     & h1 {

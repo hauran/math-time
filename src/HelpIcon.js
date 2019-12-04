@@ -9,11 +9,13 @@ const Container = styled.div`
   position: absolute;
   padding: 20px;
   z-index: 2;
-  @media (min-width: 48em) {
+  /* desktop */
+  @media (min-width: 769px) {
     top: 0px;
     right: 0px;
   }
-  @media (max-width: 48em) {
+  /* tablet & phone */
+  @media (max-width: 768px) {
     top: -15px;
     right: -15px;
   }

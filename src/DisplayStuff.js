@@ -12,22 +12,23 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform:translate3d(0, -300px, 0);
+  transform:translate3d(0, 0, 0);
   transition: transform .2s ease-in-out;
   &.wrong {  
-    transform:translate3d(0, 0, 0);
+    transform:translate3d(0, 275px, 0);
   }
   &.correct {  
-    transform:translate3d(0, 500px, 0);
+    transform:translate3d(0, 450px, 0);
   }
 `
 
 const DisplayStuff = props => {
   const {
-    isWrong, wrong_duration
+    isWrong, isCorrect, wrong_duration
   } = useContext(AppContext)
 
   const [wrong, setWrong] = useState(false)
+  const [correct, setCorrect] = useState(false)
 
   useEffect(() => {
     if (isWrong) {
@@ -40,10 +41,24 @@ const DisplayStuff = props => {
       }, 100);
       return () => clearTimeout(down);
     }
+    else
+      setWrong(false)
   }, [isWrong])
 
+  useEffect(() => {
+    if (isCorrect) {
+      const down = setTimeout(() => {
+        setCorrect(true)
+      }, 100);
+      return () => clearTimeout(down);
+    }
+    else 
+      setCorrect(false)
+  }, [isCorrect])
+
+
   return (
-    <Container className={classnames({wrong})}>
+    <Container className={classnames({wrong, correct})}>
       <MathProblem />
       <Calculator/>
     </Container>

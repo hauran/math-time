@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import classnames from 'classnames'
 
 import { AppContext } from './AppContext'
 
@@ -38,38 +39,47 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* @media (min-width: 48em) {
-    width: 450px;
-    margin-top: 250px;
-  } */
-  @media (max-width: 48em) {
-    margin-top:10vh;
-    & img {
-      max-width: 100%;
-      max-height: 100%;
-      height: 400px;
-    }
+  transform:translate3d(0, -470px, 0);
+  transition: transform .2s ease-in-out;
+  position:absolute;
+  left:0; right:0;
+  & img {
+    max-width: 100%;
+    max-height: 100%;
+    height:400px;
+    margin-top:20px;
+  }
+  &.show {
+    transform:translate3d(0, 0, 0);
   }
 `
 
 const Yes = props => {
   const {
-    startOver
+    startOver, isCorrect
   } = useContext(AppContext)
 
   const randomGif = () => {
     return gifs[Math.floor(Math.random() * gifs.length)]
   }
+
   const [gif, setGif] = useState(null)
+  const [show, setShow] = useState(false)
 
   useEffect(() => {
-    const x = randomGif()
-    setGif(`https://i.giphy.com/media/${x}/giphy.gif`)
-  }, [])
+    if (isCorrect) {
+      const x = randomGif()
+      setGif(`https://i.giphy.com/media/${x}/giphy.gif`)
+      const s = setTimeout(() => {
+        setShow(true)
+      }, 100);
+      return () => clearTimeout(s);
+    }
+  }, [isCorrect])
 
   return (
-    <Container onClick={startOver}>
-      <img src={gif} alt="nope" />
+    <Container onClick={startOver} className={classnames({ show: show })}>
+      <img src={gif} alt="yes" />
     </Container>
   )
 }
