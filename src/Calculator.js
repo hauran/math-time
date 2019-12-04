@@ -10,19 +10,32 @@ import { AppContext } from './AppContext'
 const Container = styled.section`
   width: 95%;
   max-width: 450px;
-  margin-top: 30px;
-  opacity:initial;
-  transition: opacity .2s ease-in-out;
+  opacity: initial;
+  transition: opacity 0.2s ease-in-out;
   &.wrong {
-    opacity:30%;
+    opacity: 30%;
   }
   &.correct {
-    visibility:hidden;
+    visibility: hidden;
   }
-  /* tablet & mobile */
-  @media (max-width: 768px) {
-    padding:20px
-  } 
+
+  /* desktop */
+  @media screen and (min-device-width: 1200px) {
+    margin-top: 30px;
+    padding-top: 40px;
+  }
+
+  /* tablet */
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    margin-top: 30px;
+    padding: 20px;
+  }
+
+  /* phone */
+  @media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
+    margin-top: 30px;
+    padding: 20px;
+  }
 `
 
 const Calculator = props => {

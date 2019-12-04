@@ -25,14 +25,15 @@ const Container = styled.div`
     height: 70px;
     font-size:25px
   }
+
   /*  phone */
   @media only screen 
     and (min-device-width: 375px) 
     and (max-device-width: 667px) 
     and (-webkit-min-device-pixel-ratio: 2)
     and (orientation: portrait) { 
-      height: 60px;
-      font-size:20px
+      height: 55px;
+      font-size:18px
   }
 `
 

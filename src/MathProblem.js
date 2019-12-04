@@ -37,7 +37,8 @@ const Problem = styled.h1`
     and (max-device-width: 667px) 
     and (-webkit-min-device-pixel-ratio: 2)
     and (orientation: portrait) {
-      padding:15px
+      padding:15px;
+      font-size:2em;
   }
 `
 

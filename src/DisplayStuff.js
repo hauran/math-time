@@ -12,13 +12,37 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform:translate3d(0, 0, 0);
-  transition: transform .2s ease-in-out;
-  &.wrong {  
-    transform:translate3d(0, 275px, 0);
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.2s ease-in-out;
+
+  /* desktop */
+  @media screen and (min-device-width: 1200px) {
+    &.correct {
+      transform: translate3d(0, 450px, 0);
+    }
+    &.wrong {
+      transform: translate3d(0, 300px, 0);
+    }
   }
-  &.correct {  
-    transform:translate3d(0, 450px, 0);
+
+  /* tablet */
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    &.correct {
+      transform: translate3d(0, 450px, 0);
+    }
+    &.wrong {
+      transform: translate3d(0, 400px, 0);
+    }
+  }
+
+  /* phone */
+  @media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
+    &.correct {
+      transform: translate3d(0, 430px, 0);
+    }
+    &.wrong {
+      transform: translate3d(0, 280px, 0);
+    }
   }
 `
 

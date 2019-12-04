@@ -62,7 +62,7 @@ const Gify = props => {
         setShow(true)
         const h = setTimeout(() => {
           setShow(false)
-        }, wrong_duration)
+        }, wrong_duration-250)
         return () => clearTimeout(h)
       }, 100);
       return () => clearTimeout(s);
