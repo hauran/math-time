@@ -31,7 +31,21 @@ const gifs = [
   'W0DTCPYu9vrhu',
   'YS3j8cDQ5Ff68',
   '2zoLjKxnxHYS5fTJrr',
-  '5e1UBubfNAM2BSnwmF'
+  '5e1UBubfNAM2BSnwmF',
+  'l4pSWqoUxbgL5B9S0',
+  'ZeEDEW0CsoRJ6',
+  '9FpDeOvKOts5y',
+  'oz45ELYgMoYVsZqmor',
+  '3YHsKK4VIb70RMfBlX',
+  '2ieYd6DY1iS8y4arB2',
+  'TgVBx3Y6VM49HLuZri',
+  'VxFrlqO1mVzmE',
+  'jpuJkyuJUEHNc62H0L',
+  'ujTV0zime3Qxfns0DL',
+  'Wq9FnoYuvzrjEgZTkb',
+  'gLEt5YXtyV1FOSr8K9',
+  'pOqOGrDRh0SkvLoOh6',
+  'lSgt9DJOZeBoGGXv2o',
 ]
 
 const Container = styled.div`
