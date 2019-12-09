@@ -19,7 +19,39 @@ const gifs = [
   '3og0ILLYnJryuFD7Gw',
   '3ohhwkMaNYF1TA0NJS',
   'EEFEyXLO9E0YE',
-  '1d5ZfBGrEQXfzx4sYf'
+  '1d5ZfBGrEQXfzx4sYf',
+  'oX90d6Bqef02AmU45H',
+  '3og0IJHMqlmPzy7sGs',
+  'l378yQjDMER6TR8Q0',
+  'xT9IgGdsbmikX5wW4M',
+  'YneftWBHs3qmifiI1I',
+  '3Hxy8wKadIdMjRXc9k',
+  '26vIfVoRG8NrbjfQQ',
+  'l1J9EItyIZFodSNqg',
+  'SYlo8PolAVDkQ',
+  'LT5oQB6JY9A97Hlx6R',
+  '1VWybIFCQdLJblbPHu',
+  'SvciJUUsnE2iYFDIpm',
+  'zfKMfT85E2JJm',
+  '10UGj1H0J40JxK',
+  'vcC7toES0gZq',
+  'fCb8FBfkMCRzy',
+  'l3V0mVZqZONZSsx5C',
+  '1361EDTRvnRRza',
+  'LXy9atSZqVXMY',
+  'S4AxU8ZHb0KQQtWW30',
+  'ZxVNFSvi71Oy7r17c9',
+  'QZUpRxZSaqNa5eXzku',
+  'ZedIV6kL34KG27MTnb',
+  'VCt4exaVmW2sxFbv5z',
+  '2rAyK0sx8Zqb3o6p3D',
+  '3o7TKBxS1HArb73Pz2',
+  '26xBvIRIPi7C2mem4',
+  'ZgTzOTkabbk0zi3rU2',
+  'hqUUf3uBeJ0PLn9Qr5',
+  'dt6FPWcT2Ck3oE49Wv',
+  '1ZnIdpgcI3roMnL5nl',
+  'h59nN40mHLwRkCDX9k'
 ]
 
 const Container = styled.div`
@@ -44,7 +76,7 @@ const Container = styled.div`
 
 const Gify = props => {
   const {
-    setIsWrong, isWrong, wrong_duration, setResponse, resetMathProblem
+    isWrong, wrong_duration, tryAgain
   } = useContext(AppContext)
   
   const [gif, setGif] = useState(null)
@@ -71,9 +103,7 @@ const Gify = props => {
 
   const reset = () => {
     setShow(false)
-    setIsWrong(false)
-    setResponse(null)
-    resetMathProblem()
+    tryAgain()
   }
 
   return (

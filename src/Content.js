@@ -5,7 +5,7 @@ import Yes from './Yes'
 import Nope from './Nope'
 import Confetti from './Confetti'
 import DisplayStuff from './DisplayStuff'
-import Help from './Help'
+import Settings from './Settings'
 
 import { AppContext } from './AppContext'
 
@@ -78,7 +78,7 @@ const Content = props => {
         {isWrong ? <Nope /> : null}
         <DisplayStuff/>
       </Main>
-      {/* <Help /> */}
+      <Settings />
     </Container>
   )
 }

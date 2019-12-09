@@ -44,11 +44,18 @@ const Problem = styled.h1`
 
 const MathProblem = props => {
   const {
-    mathProblem, isCorrect, isWrong, startOver
+    mathProblem, isCorrect, isWrong, startOver, tryAgain
   } = useContext(AppContext)
 
+  const handleClick = () => {
+    if (isWrong) 
+      tryAgain()
+    else 
+      startOver()
+  }
+
   return (
-    <Container onClick={startOver}>
+    <Container onClick={handleClick}>
       <Problem className={classnames({ correct: isCorrect, wrong: isWrong })}>{mathProblem}</Problem>
     </Container>
   )
