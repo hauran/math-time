@@ -28,8 +28,8 @@ const spin = keyframes`
   }
 `
 const Circle = styled.div`
- border-radius: 50%;
-animation: ${spin} 10s linear 0s infinite;
+  border-radius: 50%;
+  animation: ${spin} 20s linear 0s infinite;
   /* desktop */
   @media (min-width: 769px) {
     font-size:1.5em;

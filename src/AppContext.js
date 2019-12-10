@@ -160,14 +160,15 @@ const AppProvider = props => {
   }
 
   // initial load
-  useEffect(() => getSettings(), [])
+  useEffect(() => {
+    getSettings()
+    setTouchDevice(isTouchDevice())
+  }, [])
 
   // only when settings are loaded
   useEffect(() => {
-    if (settings) {      
+    if (settings && !mathProblem)
       generateMathProblem()
-      setTouchDevice(isTouchDevice())
-    }
   }, [settings])
 
   // when settings are closed, generate problem

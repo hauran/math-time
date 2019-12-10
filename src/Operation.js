@@ -37,20 +37,19 @@ const Hint = styled.div`
 `
 
 const Operation = props => {
-  const { hint, use, setUse, max, setMax} = props
-
+  const { hint, use, setUse, max, setMax, title} = props
   return (
     <Container>
       <Header>
         <label >
           <Toggle checked={use} icons={{ unchecked: false }} onChange={() => setUse(!use)} />
         </label>
-        <Title onClick={() => setUse(!use)}>{props.title}</Title>
+        <Title onClick={() => setUse(!use)}>{title}</Title>
       </Header>
 
       {use ? <Content>
         Maximum Value:
-        <Max type='number' value={max || ''} onChange={e => setMax(e.currentTarget.value)}/>
+        <Max type='number' value={max || ''} onChange={e => setMax(e.target.value)}/>
       </Content>
       :null}
 
