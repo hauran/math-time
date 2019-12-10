@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react'
+import React  from 'react'
 import styled from 'styled-components'
 import Toggle from 'react-toggle'
 
-import { AppContext } from './AppContext'
 import 'react-toggle/style.css'
 
 const Container = styled.section`
@@ -30,8 +29,15 @@ const Max = styled.input`
   margin-left:10px;
 `
 
+const Hint = styled.div`
+  font-size:12px;
+  font-style:italic;
+  color:rgba(0,0,0,0.7);
+  margin-top:-3px;
+`
+
 const Operation = props => {
-  const { use, setUse, max, setMax} = props
+  const { hint, use, setUse, max, setMax} = props
 
   return (
     <Container>
@@ -47,6 +53,11 @@ const Operation = props => {
         <Max type='number' value={max || ''} onChange={e => setMax(e.currentTarget.value)}/>
       </Content>
       :null}
+
+      {hint ? <Hint>
+        For division, try to use a larger number. There's only so many ways to be able to divide 10.  Ya' know?
+      </Hint>
+        : null}
     </Container>
   )
 }

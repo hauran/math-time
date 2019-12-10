@@ -1,5 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react'
 import isTouchDevice from 'is-touch-device'
+import {range} from 'lodash'
+import primes from './primeNumbers'
 
 const AppContext = createContext()
 const wrong_duration = 2250
@@ -18,7 +20,7 @@ const defaultSettings = {
   },
   division: {
     use: false,
-    max: 10
+    max: 25
   }
 }
 
@@ -31,7 +33,7 @@ const AppProvider = props => {
   const [isWrong, setIsWrong] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
-  const [settings, setSettings] = useState(defaultSettings)
+  const [settings, setSettings] = useState(null)
 
   const randomNumber = (max_value) => {
     return Math.floor(Math.random() * max_value + 1)
@@ -72,15 +74,13 @@ const AppProvider = props => {
   const generateDivisionProblem = () => {
     const max_value = settings.division.max
     let num1 = randomNumber(max_value)
-    let num2 = randomNumber(max_value)
-    while (num2 === num1) {
-      num2 = randomNumber(max_value)
-    }
-    const biggerNumber = num1 > num2 ? num1 : num2
-    const smallerNumber = num1 < num2 ? num1 : num2
-
-    const answer = parseInt(biggerNumber/smallerNumber)
-    setMathProblem(`${biggerNumber} ÷ ${smallerNumber}`)
+    while (primes.includes(num1))
+      num1 = randomNumber(max_value)
+    const numbers = range(2, num1)
+    const multiplesOf = numbers.filter(n => !(num1 % n))
+    const num2 = multiplesOf[randomNumber(multiplesOf.length) - 1]
+    const answer = parseInt(num1/num2)
+    setMathProblem(`${num1} ÷ ${num2}`)
     setAnswer(answer)
   }
 
@@ -134,7 +134,7 @@ const AppProvider = props => {
       setMathProblem(mathProblem.substr(0, i - 1))
   }
 
-  const getConfig = () => {
+  const getSettings = () => {
     let settings = localStorage.getItem('settings')
     if(!settings) settings = defaultSettings
     else settings = JSON.parse(settings)
@@ -159,6 +159,26 @@ const AppProvider = props => {
     setSettings(s)
   }
 
+  // initial load
+  useEffect(() => getSettings(), [])
+
+  // only when settings are loaded
+  useEffect(() => {
+    if (settings) {      
+      generateMathProblem()
+      setTouchDevice(isTouchDevice())
+    }
+  }, [settings])
+
+  // when settings are closed, generate problem
+  useEffect(() => {
+    if (settings && !showSettings) {
+      if (!settings.addition.use && !settings.subtraction.use && !settings.multiplication.use && !settings.division.use)
+        setSettingsUseOperation('addition', true)
+      startOver()
+    }
+  }, [showSettings])
+
   useEffect(() => {
     if (isWrong) {
       const timer = setTimeout(() => {
@@ -171,21 +191,6 @@ const AppProvider = props => {
     }
   }, [isWrong])
 
-  useEffect(() => {
-    if (!showSettings) {
-      if (!settings.addition.use && !settings.subtraction.use && !settings.multiplication.use && !settings.division.use)
-        setSettingsUseOperation('addition', true)
-      startOver()
-    }
-  }, [showSettings])
-
-  // do on initial load only  
-  useEffect(() => {
-    getConfig()
-    generateMathProblem()
-    setTouchDevice(isTouchDevice())
-
-  }, [])
 
   return (
     <AppContext.Provider

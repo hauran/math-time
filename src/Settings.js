@@ -92,7 +92,8 @@ const Help = props => {
               setUse={use => setSettingsUseOperation('division', use)}
               max={settings.division.max}
               setMax={max => setSettingsOperationMax('division', max)}
-              title="Division (÷)" />
+              title="Division (÷)" 
+              hint={true}/>
           </Container>
         </HelpInfoContainer>
       ) : null}
