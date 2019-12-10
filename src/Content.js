@@ -6,7 +6,7 @@ import Nope from './components/Nope'
 import Confetti from './components/Confetti'
 import DisplayStuff from './components/DisplayStuff'
 import Settings from './components/Settings'
-import Modes from './components/Modes'
+// import Modes from './components/Modes'
 
 import { AppContext } from './AppContext'
 
@@ -26,31 +26,27 @@ const Container = styled.div`
 
 const Main = styled.div`
   flex: 1;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content:  'center';
+  justify-content: 'center';
   flex-direction: column;
   position: relative;
   /* desktop */
-  @media screen 
-    and (min-device-width: 1200px)  { 
-      padding-top:100px;
+  @media screen and (min-device-width: 1200px) {
+    padding-top: 100px;
   }
 
   /* tablet */
-  @media only screen 
-    and (min-device-width: 768px) 
-    and (max-device-width: 1024px) {
-    padding-top:100px;
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    padding-top: 100px;
   }
 
   /* phone */
-  @media only screen 
-    and (min-device-width: 375px) 
-    and (max-device-width: 667px){ 
-      padding-top:0px;
+  @media only screen and (max-device-width: 768px) {
+    padding-top: 0px;
   }
 `
 
@@ -80,7 +76,7 @@ const Content = props => {
         <DisplayStuff/>
       </Main>
       <Settings />
-      <Modes/>
+      {/* <Modes/> */}
     </Container>
   )
 }

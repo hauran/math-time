@@ -2,7 +2,7 @@ html,
 body {
   height: 100%;
   min-height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 body {
@@ -19,11 +19,6 @@ code {
 }
 
 * {
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   touch-action: manipulation;
 }
 
