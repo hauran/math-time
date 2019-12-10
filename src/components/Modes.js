@@ -36,7 +36,7 @@ const Option = styled.div`
   flex: 1;
   width: 100%;
   max-height: 400px;
-  max-width: 400px;
+  max-width: 450px;
   margin: 15px 0;
   /* desktop */
   @media (min-width: 769px) {
@@ -67,21 +67,43 @@ const Copy = styled.div`
 `
 
 const Modes = props => {
-  
+    const {
+      mode, setMode
+    } = useContext(AppContext)
+
+
   return (
+    <>
+    {!mode ?
     <ModeContainer>
-      <Option>
-        <Title>Timed Mode</Title>
-        <p style={{ textAlign:'center'}}>You have 2 minutes... Go!</p>
+      <Option onClick={() => setMode('timer')}>
+        <Title>Timer Mode</Title>
+        <p style={{ textAlign: 'center' }}>You have 2 minutes... Go!</p>
         <Body>
-          <Gif id="8OPzq48W0upEDZHQ43" wDesktop={250} wMobile={100}></Gif>
-          <Copy style={{marginTop:20}}>
-            <p style={{margin:0}}>For that extra excitment of beating the clock and setting your personal best.</p>
+          <Gif id="8OPzq48W0upEDZHQ43" wDesktop={200} wMobile={100}></Gif>
+          <Copy>
+            <p style={{ margin: 0 }}>
+              For that extra excitment of beating the clock and achieving your personal best.
+            </p>
           </Copy>
         </Body>
       </Option>
-      <Option>No Timer</Option>
+
+      <Option onClick={() => setMode('casual')}>
+        <Title>Casual Mode</Title>
+        <p style={{ textAlign: 'center' }}>Chill baby...</p>
+        <Body>
+          <Gif id="kC8VlVbwprG6gmIaTZ" wDesktop={220} wMobile={120}></Gif>
+          <Copy>
+            <p style={{ margin: 0 }}>
+              Take your time. Just relax and practice a few math problems.
+            </p>
+          </Copy>
+        </Body>
+      </Option>
     </ModeContainer>
+    :null}
+    </>
   )
 }
 export default Modes

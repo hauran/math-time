@@ -6,7 +6,7 @@ import Nope from './components/Nope'
 import Confetti from './components/Confetti'
 import DisplayStuff from './components/DisplayStuff'
 import Settings from './components/Settings'
-// import Modes from './components/Modes'
+import Modes from './components/Modes'
 
 import { AppContext } from './AppContext'
 
@@ -76,7 +76,7 @@ const Content = props => {
         <DisplayStuff/>
       </Main>
       <Settings />
-      {/* <Modes/> */}
+      <Modes/>
     </Container>
   )
 }

@@ -33,6 +33,7 @@ const AppProvider = props => {
   const [isCorrect, setIsCorrect] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [settings, setSettings] = useState(null)
+  const [mode, setMode] = useState(null)
 
   const digitPress = (d) => {
     const currentResponse = (response || '').toString()
@@ -153,7 +154,9 @@ const AppProvider = props => {
         settings,
         setSettingsUseOperation,
         setSettingsOperationMax,
-        wrong_duration
+        wrong_duration,
+        mode,
+        setMode
       }}
     >
       {props.children}
