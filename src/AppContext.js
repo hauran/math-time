@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react'
 import isTouchDevice from 'is-touch-device'
-import {range} from 'lodash'
-import primes from './primeNumbers'
+import generateMathProblem from './mathStuff/generateMath'
 
 const AppContext = createContext()
 const wrong_duration = 2250
@@ -35,65 +34,6 @@ const AppProvider = props => {
   const [showSettings, setShowSettings] = useState(false)
   const [settings, setSettings] = useState(null)
 
-  const randomNumber = (max_value) => {
-    return Math.floor(Math.random() * max_value + 1)
-  }
-
-  const generateAdditionProblem = () => {
-    const max_value = settings.addition.max
-    const num1 = randomNumber(max_value)
-    const num2 = randomNumber(max_value)
-    const answer = num1 + num2
-    setMathProblem(`${num1} + ${num2}`)
-    setAnswer(answer)
-  }
-
-  const generateSubtractionProblem = () => {
-    const max_value = settings.subtraction.max
-    let num1 = randomNumber(max_value)
-    let num2 = randomNumber(max_value)
-    while (num2 === num1) {
-      num2 = randomNumber(max_value)
-    }
-    const biggerNumber = num1 > num2 ? num1 : num2
-    const smallerNumber = num1 < num2 ? num1 : num2
-    const answer = biggerNumber - smallerNumber
-    setMathProblem(`${biggerNumber} - ${smallerNumber}`)
-    setAnswer(answer)
-  }
-
-  const generateMultiplicationProblem = () => {
-    const max_value = settings.multiplication.max
-    let num1 = randomNumber(max_value)
-    let num2 = randomNumber(max_value)
-    const answer = num1 * num2
-    setMathProblem(`${num1} x ${num2}`)
-    setAnswer(answer)
-  }
-
-  const generateDivisionProblem = () => {
-    const max_value = settings.division.max
-    let num1 = randomNumber(max_value)
-    while (primes.includes(num1))
-      num1 = randomNumber(max_value)
-    const numbers = range(2, num1)
-    const multiplesOf = numbers.filter(n => !(num1 % n))
-    const num2 = multiplesOf[randomNumber(multiplesOf.length) - 1]
-    const answer = parseInt(num1/num2)
-    setMathProblem(`${num1} ÷ ${num2}`)
-    setAnswer(answer)
-  }
-
-  const generateMathProblem = () => {
-    const problems = []
-    if (settings.addition.use) problems.push(generateAdditionProblem)
-    if (settings.subtraction.use) problems.push(generateSubtractionProblem)
-    if (settings.multiplication.use) problems.push(generateMultiplicationProblem)
-    if (settings.division.use) problems.push(generateDivisionProblem)
-    if(problems.length === 0) return
-    return problems[randomNumber(problems.length)-1]()
-  }
-
   const digitPress = (d) => {
     const currentResponse = (response || '').toString()
     setResponse(parseInt(currentResponse + d))
@@ -115,12 +55,11 @@ const AppProvider = props => {
   }
 
   const startOver = () => {
-    generateMathProblem()
+    generateMathProblem(settings, setMathProblem, setAnswer)
     setIsWrong(false)
     setIsCorrect(false)
     setResponse(null)
   }
-
 
   const tryAgain = () => {
     setIsWrong(false)
@@ -168,7 +107,7 @@ const AppProvider = props => {
   // only when settings are loaded
   useEffect(() => {
     if (settings && !mathProblem)
-      generateMathProblem()
+      generateMathProblem(settings, setMathProblem, setAnswer)
   }, [settings])
 
   // when settings are closed, generate problem
@@ -201,7 +140,6 @@ const AppProvider = props => {
         response,
         setResponse,
         mathProblem,
-        generateMathProblem,
         showSettings,
         setShowSettings,
         digitPress,
@@ -211,7 +149,6 @@ const AppProvider = props => {
         isCorrect,
         setIsCorrect,
         startOver,
-        resetMathProblem,
         tryAgain,
         settings,
         setSettingsUseOperation,

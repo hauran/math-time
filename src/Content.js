@@ -1,11 +1,12 @@
 import React, { useContext} from 'react'
 
 import styled from 'styled-components'
-import Yes from './Yes'
-import Nope from './Nope'
-import Confetti from './Confetti'
-import DisplayStuff from './DisplayStuff'
-import Settings from './Settings'
+import Yes from './components/Yes'
+import Nope from './components/Nope'
+import Confetti from './components/Confetti'
+import DisplayStuff from './components/DisplayStuff'
+import Settings from './components/Settings'
+import Modes from './components/Modes'
 
 import { AppContext } from './AppContext'
 
@@ -79,6 +80,7 @@ const Content = props => {
         <DisplayStuff/>
       </Main>
       <Settings />
+      <Modes/>
     </Container>
   )
 }
