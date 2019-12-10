@@ -36,13 +36,14 @@ const Container = styled.div`
   /* desktop */
   @media (min-width: 769px) {
     padding: 30px;
-    max-width: 800px;
+    max-width: 350px;
   }
   /* tablet & phone */
   @media (max-width: 768px) {
-    margin-top:-50px;
+    margin-top: -50px;
     padding: 5px;
     width: 80vw;
+    max-width: 350px;
   }
 `
 

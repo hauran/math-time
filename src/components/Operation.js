@@ -41,22 +41,25 @@ const Operation = props => {
   return (
     <Container>
       <Header>
-        <label >
+        <label>
           <Toggle checked={use} icons={{ unchecked: false }} onChange={() => setUse(!use)} />
         </label>
         <Title onClick={() => setUse(!use)}>{title}</Title>
       </Header>
 
-      {use ? <Content>
-        Maximum Value:
-        <Max type='number' value={max || ''} onChange={e => setMax(e.target.value)} />
-      </Content>  
-      :null}
+      {use ? (
+        <Content>
+          Maximum Value:
+          <Max type="number" value={max || ''} onChange={e => setMax(e.target.value)} />
+        </Content>
+      ) : null}
 
-      {hint ? <Hint>
-        For division, try to use a larger number. There's only so many ways to be able to divide 10.  Ya' know?
-      </Hint>
-        : null}
+      {use && hint ? (
+        <Hint>
+          For division, try to use a larger number. There's only so many ways to be able to divide
+          10. Ya' know?
+        </Hint>
+      ) : null}
     </Container>
   )
 }
