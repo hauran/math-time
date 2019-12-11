@@ -33,7 +33,7 @@ const AppProvider = props => {
   const [isCorrect, setIsCorrect] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [settings, setSettings] = useState(null)
-  const [mode, setMode] = useState(null)
+  const [mode, setMode] = useState('timer')
 
   const digitPress = (d) => {
     const currentResponse = (response || '').toString()
