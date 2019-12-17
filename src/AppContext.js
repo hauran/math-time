@@ -4,7 +4,8 @@ import generateMathProblem from './mathStuff/generateMath'
 
 const AppContext = createContext()
 const wrong_duration = 2250
-const timer_mode_length = 120
+const timer_mode_length = 125
+let timer_timeout
 const defaultSettings = {
   addition:{
     use:true,
@@ -116,6 +117,12 @@ const AppProvider = props => {
     startOver()
   }
 
+  const backToHome = () => {
+    playAgain()
+    if (timer_timeout) clearTimeout(timer_timeout)
+    setMode(null)
+  }
+
   // initial load
   useEffect(() => {
     getSettings()
@@ -157,7 +164,7 @@ const AppProvider = props => {
   // timer mode
   useEffect(() => {
     if (secondsRemaining && secondsRemaining > 0)
-      setTimeout(() => setSecondsRemaining(secondsRemaining - 1),1000)
+      timer_timeout = setTimeout(() => setSecondsRemaining(secondsRemaining - 1),1000)
   }, [secondsRemaining])
 
 
@@ -190,7 +197,8 @@ const AppProvider = props => {
         timer_mode_length,
         correctCount,
         mathProblemCount,
-        playAgain
+        playAgain,
+        backToHome
       }}
     >
       {props.children}

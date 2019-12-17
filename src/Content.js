@@ -6,6 +6,7 @@ import Nope from './components/Nope'
 import Confetti from './components/Confetti'
 import DisplayStuff from './components/DisplayStuff'
 import Settings from './components/Settings'
+import HomeIcon from './components/HomeIcon'
 import Modes from './components/Modes'
 import Countdown from './components/Countdown'
 import BackgrondColor from './components/BackgrondColor'
@@ -69,6 +70,7 @@ const Content = props => {
               {isWrong ? <Nope /> : null}
               <DisplayStuff/>
             <Settings />
+            <HomeIcon/>
           </>
         : null}
       </Main>

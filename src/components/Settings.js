@@ -13,7 +13,7 @@ const HelpInfoContainer = styled.div`
   right: 0;
   left: 0;
   background: rgba(255, 255, 255, 0.7);
-  z-index: 1;
+  z-index: 10;
   display: flex;
   justify-content: center;
   align-items:center;

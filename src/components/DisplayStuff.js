@@ -8,6 +8,7 @@ import { AppContext } from '../AppContext'
 import classnames from 'classnames'
 
 const Container = styled.section`
+  margin-top:30px;
   width: 100%;
   display: flex;
   flex-direction: column;
