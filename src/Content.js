@@ -7,6 +7,9 @@ import Confetti from './components/Confetti'
 import DisplayStuff from './components/DisplayStuff'
 import Settings from './components/Settings'
 import Modes from './components/Modes'
+import Countdown from './components/Countdown'
+import BackgrondColor from './components/BackgrondColor'
+import Results from './components/Results'
 
 import { AppContext } from './AppContext'
 
@@ -53,30 +56,26 @@ const Main = styled.div`
 const Content = props => {
 
   const {
-    isWrong, isCorrect
+    isWrong, isCorrect, mode, secondsRemaining
   } = useContext(AppContext)
-
-  const getBackGroundColor = side => {
-    const colors = {
-      wrong: '#b2bec3',
-      correct: '#00b894',
-      rest: 'rgba(232, 67, 147,1.0)'
-    }
-    if (!isWrong && !isCorrect) return colors.rest
-    else if (isWrong) return colors.wrong
-    else if (isCorrect) return colors.correct
-    else return colors.rest
-  }
 
   return (
     <Container>
-      <Main style={{ backgroundColor: getBackGroundColor() }}>
-        {isCorrect ? <><Yes /><Confetti /></> : null}
-        {isWrong ? <Nope /> : null}
-        <DisplayStuff/>
+      <Main>
+        <BackgrondColor/>
+        {mode && ( (mode === 'casual') || (mode === 'timer' && secondsRemaining > 0)  ) ? 
+          <>
+              {isCorrect ? <><Yes /><Confetti /></> : null}
+              {isWrong ? <Nope /> : null}
+              <DisplayStuff/>
+            <Settings />
+          </>
+        : null}
       </Main>
-      <Settings />
+
       <Modes/>
+      <Countdown/>
+      <Results />
     </Container>
   )
 }

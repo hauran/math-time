@@ -100,13 +100,21 @@ const Yes = props => {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
+    let x, s
     if (isCorrect) {
-      const x = randomGif()
+      x = randomGif()
       setGif(`https://i.giphy.com/media/${x}/giphy.gif`)
-      const s = setTimeout(() => {
+      s = setTimeout(() => {
         setShow(true)
       }, 100);
       return () => clearTimeout(s);
+    }
+
+    return () => {
+      if (x)
+        clearTimeout(x)
+      if (s)
+        clearTimeout(s)
     }
   }, [isCorrect])
 

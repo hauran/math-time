@@ -4,6 +4,7 @@ import generateMathProblem from './mathStuff/generateMath'
 
 const AppContext = createContext()
 const wrong_duration = 2250
+const timer_mode_length = 120
 const defaultSettings = {
   addition:{
     use:true,
@@ -31,9 +32,12 @@ const AppProvider = props => {
   const [response, setResponse] = useState(null)
   const [isWrong, setIsWrong] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
+  const [correctCount, setCorrectCount] = useState(null)
+  const [mathProblemCount, setMathProblemCount] = useState(null)
   const [showSettings, setShowSettings] = useState(false)
   const [settings, setSettings] = useState(null)
-  const [mode, setMode] = useState('timer')
+  const [mode, setMode] = useState(null)
+  const [secondsRemaining, setSecondsRemaining] = useState(null)
 
   const digitPress = (d) => {
     const currentResponse = (response || '').toString()
@@ -46,6 +50,7 @@ const AppProvider = props => {
       setResponse(null)
       setMathProblem(`${mathProblem} = ${answer}`)
       setIsWrong(false)
+      setCorrectCount(correctCount + 1)
       setIsCorrect(true)
     }
     else {
@@ -60,6 +65,7 @@ const AppProvider = props => {
     setIsWrong(false)
     setIsCorrect(false)
     setResponse(null)
+    setMathProblemCount(mathProblemCount + 1)
   }
 
   const tryAgain = () => {
@@ -99,17 +105,32 @@ const AppProvider = props => {
     setSettings(s)
   }
 
+  const startTimer = () => {
+    setSecondsRemaining(timer_mode_length)
+  }
+
+  const playAgain = () => {
+    setCorrectCount(0)
+    setMathProblemCount(0)
+    setSecondsRemaining(null)
+    startOver()
+  }
+
   // initial load
   useEffect(() => {
     getSettings()
     setTouchDevice(isTouchDevice())
   }, [])
 
+
   // only when settings are loaded
   useEffect(() => {
-    if (settings && !mathProblem)
+    if (settings && !mathProblem){
+      setMathProblemCount(mathProblemCount + 1)
       generateMathProblem(settings, setMathProblem, setAnswer)
+    }
   }, [settings])
+
 
   // when settings are closed, generate problem
   useEffect(() => {
@@ -119,6 +140,7 @@ const AppProvider = props => {
       startOver()
     }
   }, [showSettings])
+
 
   useEffect(() => {
     if (isWrong) {
@@ -131,6 +153,12 @@ const AppProvider = props => {
       return () => clearTimeout(timer)
     }
   }, [isWrong])
+
+  // timer mode
+  useEffect(() => {
+    if (secondsRemaining && secondsRemaining > 0)
+      setTimeout(() => setSecondsRemaining(secondsRemaining - 1),1000)
+  }, [secondsRemaining])
 
 
   return (
@@ -156,7 +184,13 @@ const AppProvider = props => {
         setSettingsOperationMax,
         wrong_duration,
         mode,
-        setMode
+        setMode,
+        secondsRemaining,
+        startTimer,
+        timer_mode_length,
+        correctCount,
+        mathProblemCount,
+        playAgain
       }}
     >
       {props.children}

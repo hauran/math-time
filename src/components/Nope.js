@@ -74,32 +74,36 @@ const Container = styled.div`
   }
 `
 
-const Gify = props => {
+const Nope = props => {
   const {
     isWrong, wrong_duration, tryAgain
   } = useContext(AppContext)
   
   const [gif, setGif] = useState(null)
   const [show, setShow] = useState(false)
+
   const randomGif = () => {
     return gifs[Math.floor(Math.random() * gifs.length)]
   }
-
+  
   useEffect(() => {
-    if (isWrong) {
-      const x = randomGif()
-      setGif(`https://i.giphy.com/media/${x}/giphy.gif`)
+    const x = randomGif()
+    setGif(`https://i.giphy.com/media/${x}/giphy.gif`)
 
-      const s = setTimeout(() => {
-        setShow(true)
-        const h = setTimeout(() => {
-          setShow(false)
-        }, wrong_duration-250)
-        return () => clearTimeout(h)
-      }, 100);
-      return () => clearTimeout(s);
+    let s, h 
+    s = setTimeout(() => {
+      setShow(true)
+      h = setTimeout(() => {
+        setShow(false)
+      }, wrong_duration-250)
+      return () => clearTimeout(h)
+    }, 100);
+
+    return () => {
+      if (s) clearTimeout(s)
+      if (h) clearTimeout(h)
     }
-  }, [isWrong])
+  }, [isWrong, wrong_duration])
 
   const reset = () => {
     setShow(false)
@@ -113,4 +117,4 @@ const Gify = props => {
   )
 }
 
-export default Gify
+export default Nope

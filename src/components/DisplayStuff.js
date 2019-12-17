@@ -14,7 +14,6 @@ const Container = styled.section`
   align-items: center;
   transform: translate3d(0, 0, 0);
   transition: transform 0.2s ease-in-out;
-
   /* desktop */
   @media screen and (min-device-width: 1200px) {
     &.correct {
@@ -55,10 +54,11 @@ const DisplayStuff = props => {
   const [correct, setCorrect] = useState(false)
 
   useEffect(() => {
+    let down, up
     if (isWrong) {
-      const down = setTimeout(() => {
+      down = setTimeout(() => {
         setWrong(true)
-        const up = setTimeout(() => {
+        up = setTimeout(() => {
           setWrong(false)
         }, wrong_duration)
         return () => clearTimeout(up)
@@ -67,17 +67,26 @@ const DisplayStuff = props => {
     }
     else
       setWrong(false)
-  }, [isWrong])
+
+    return () => {
+      if (down) clearTimeout(down)
+      if (up) clearTimeout(up)
+    }
+  }, [isWrong, wrong_duration])
+
 
   useEffect(() => {
+    let down
     if (isCorrect) {
-      const down = setTimeout(() => {
+      down = setTimeout(() => {
         setCorrect(true)
       }, 100);
       return () => clearTimeout(down);
     }
     else 
       setCorrect(false)
+
+    return () => { if (down) clearTimeout(down) }
   }, [isCorrect])
 
 

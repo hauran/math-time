@@ -58,6 +58,10 @@ const Title = styled.h1`
 
 const Body = styled.section`
   display:flex;
+    /* tablet & phone */
+  @media (max-width: 768px) {
+    margin-top: 30px;
+  }
 `
 
 const Copy = styled.div`
@@ -78,12 +82,12 @@ const Modes = props => {
     <ModeContainer>
       <Option onClick={() => setMode('timer')}>
         <Title>Timer Mode</Title>
-        <p style={{ textAlign: 'center' }}>You have 2 minutes... Go!</p>
+        <p style={{ textAlign: 'center' }}>You have 2 minutes. Ready, Set...</p>
         <Body>
           <Gif id="8OPzq48W0upEDZHQ43" wDesktop={200} wMobile={100}></Gif>
           <Copy>
             <p style={{ margin: 0 }}>
-              For that extra excitment of beating the clock and achieving your personal best.
+              For that extra excitment of racing the clock and beating your personal best.
             </p>
           </Copy>
         </Body>
@@ -91,7 +95,7 @@ const Modes = props => {
 
       <Option onClick={() => setMode('casual')}>
         <Title>Casual Mode</Title>
-        <p style={{ textAlign: 'center' }}>Chill baby...</p>
+        <p style={{ textAlign: 'center' }}>Chill dude...</p>
         <Body>
           <Gif id="kC8VlVbwprG6gmIaTZ" wDesktop={220} wMobile={120}></Gif>
           <Copy>
