@@ -18,7 +18,6 @@ const ModeContainer = styled.div`
   flex-direction: column;
   /* desktop */
   @media (min-width: 769px) {
-    /* padding-top: 100px; */
   }
   /* tablet & phone */
   @media (max-width: 768px) {

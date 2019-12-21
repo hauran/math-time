@@ -7,6 +7,7 @@ const Container = styled.div`
   cursor: pointer;
   position: absolute;
   padding: 20px;
+  padding-right: 10px;
   z-index: 1;
   /* desktop */
   @media (min-width: 769px) {
@@ -16,7 +17,7 @@ const Container = styled.div`
   /* tablet & phone */
   @media (max-width: 768px) {
     top: -13px;
-    right: -13px;
+    right: 0px;
   }
 `
 const spin = keyframes`

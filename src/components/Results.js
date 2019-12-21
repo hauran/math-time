@@ -64,15 +64,10 @@ const Button = styled.div`
   justify-content:center;
   /* desktop */
   @media (min-width: 769px) {
-    /* padding: 30px;
-    max-width: 800px; */
     padding: 20px;
   }
   /* tablet & phone */
   @media (max-width: 768px) {
-    /* margin-top: -50px;
-    padding: 15px;
-    width: 80vw; */
     padding: 15px;
   }
 `

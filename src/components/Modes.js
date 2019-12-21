@@ -14,16 +14,17 @@ const ModeContainer = styled.div`
   background: rgba(255, 255, 255, 0.7);
   z-index: 1;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction:column;
   /* desktop */
   @media (min-width: 769px) {
-    /* padding-top: 100px; */
+    justify-content:center;
   }
+
   /* tablet & phone */
   @media (max-width: 768px) {
-    padding: 30px;
+    padding: 40px;
+    justify-content: flex-start;
   }
 `
 
@@ -33,35 +34,32 @@ const Option = styled.div`
   border: 5px dashed rgba(0, 0, 0, 0.4);
   font-weight: 600;
   color: rgba(0, 0, 0, 0.7);
-  flex: 1;
   width: 100%;
   max-height: 400px;
   max-width: 450px;
-  margin: 15px 0;
+  margin-bottom: 20px;
+  &:last-of-type {
+    margin-bottom:0;
+  }
   /* desktop */
   @media (min-width: 769px) {
-    /* padding: 30px;
-    max-width: 800px; */
     padding: 20px;
+    flex:0.5;
+
   }
   /* tablet & phone */
   @media (max-width: 768px) {
-    /* margin-top: -50px;
     padding: 15px;
-    width: 80vw; */
-    padding: 15px;
+    flex: calc( 0.5 - 50px);
   }
 `
 const Title = styled.h1`
   text-align:center;
+  margin:10px;
 `
 
 const Body = styled.section`
   display:flex;
-    /* tablet & phone */
-  @media (max-width: 768px) {
-    margin-top: 30px;
-  }
 `
 
 const Copy = styled.div`
