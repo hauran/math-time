@@ -1,4 +1,3 @@
-
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import classnames from 'classnames'
@@ -38,13 +37,11 @@ const Container = styled.section`
   }
 `
 
-const Calculator = props => {
-  const {
-    setResponse, isWrong, isCorrect
-  } = useContext(AppContext)
+const Calculator = (props) => {
+  const { setResponse, isWrong, isCorrect } = useContext(AppContext)
   const erase = () => setResponse(null)
   return (
-    <Container className={classnames({ wrong: isWrong, correct:isCorrect})}>
+    <Container className={classnames({ wrong: isWrong, correct: isCorrect })}>
       <Screen onClick={() => !isWrong && erase()} />
       <Digits />
     </Container>
