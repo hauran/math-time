@@ -51,7 +51,14 @@ const gifs = [
   'hqUUf3uBeJ0PLn9Qr5',
   'dt6FPWcT2Ck3oE49Wv',
   '1ZnIdpgcI3roMnL5nl',
-  'h59nN40mHLwRkCDX9k'
+  'h59nN40mHLwRkCDX9k',
+  '3og0IxHg8KJ3UmKs1y',
+  'lG0Tw8fIGQb6w',
+  '7zep10gsZL6Ios92PL',
+  'h4OGa0npayrJX2NRPT',
+  'EEFEyXLO9E0YE',
+  '3ov9k2Ce4sn264hffG',
+  'iropEUq9RK7vuYPebx',
 ]
 
 const Container = styled.div`
@@ -59,45 +66,44 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  transform:translate3d(0, -300px, 0);
-  transition: transform .2s ease-in-out;
-  position:absolute;
-  left:0; right:0;
+  transform: translate3d(0, -300px, 0);
+  transition: transform 0.2s ease-in-out;
+  position: absolute;
+  left: 0;
+  right: 0;
   & img {
     max-width: 100%;
     max-height: 100%;
-    height:230px;
-    margin-top:20px;
+    height: 230px;
+    margin-top: 20px;
   }
   &.show {
-    transform:translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 `
 
-const Nope = props => {
-  const {
-    isWrong, wrong_duration, tryAgain
-  } = useContext(AppContext)
-  
+const Nope = (props) => {
+  const { isWrong, wrong_duration, tryAgain } = useContext(AppContext)
+
   const [gif, setGif] = useState(null)
   const [show, setShow] = useState(false)
 
   const randomGif = () => {
     return gifs[Math.floor(Math.random() * gifs.length)]
   }
-  
+
   useEffect(() => {
     const x = randomGif()
     setGif(`https://i.giphy.com/media/${x}/giphy.gif`)
 
-    let s, h 
+    let s, h
     s = setTimeout(() => {
       setShow(true)
       h = setTimeout(() => {
         setShow(false)
-      }, wrong_duration-250)
+      }, wrong_duration - 250)
       return () => clearTimeout(h)
-    }, 100);
+    }, 100)
 
     return () => {
       if (s) clearTimeout(s)

@@ -59,12 +59,19 @@ const gifs = [
   'l378zKVk7Eh3yHoJi',
   'cnQcCcz8BpJiiyNX2Q',
   'ZCldwd8JpfXgY',
-  'ftMvs2Z7oECN0W0A0t',
   'JstNscBNrecbJOWryt',
   '40a347YQBKFOuzQweW',
   'cnnjPX5DYXgB6MfrU3',
   'x49DCuOOBiurrmlEov',
-  'i2oemhIwuZHIQ'
+  'i2oemhIwuZHIQ',
+  'TzKPy0HX62yTUuFiUF',
+  '3oKIPtArcgQmH9dBK0',
+  'XdDcq8YODbhnYTBdY8',
+  'JsDtKXMBOAJt1mJYaF',
+  'bVOsW47VUj0sucK7h0',
+  'S4lxHeBdytDcqsS5UN',
+  'QVOOeh4YRTslYPhV3r',
+  '4cXrGwezpRCCdZcg9o',
 ]
 
 const Container = styled.div`
@@ -72,25 +79,24 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  transform:translate3d(0, -470px, 0);
-  transition: transform .2s ease-in-out;
-  position:absolute;
-  left:0; right:0;
+  transform: translate3d(0, -470px, 0);
+  transition: transform 0.2s ease-in-out;
+  position: absolute;
+  left: 0;
+  right: 0;
   & img {
     max-width: 100%;
     max-height: 100%;
-    height:400px;
-    margin-top:20px;
+    height: 400px;
+    margin-top: 20px;
   }
   &.show {
-    transform:translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
 `
 
-const Yes = props => {
-  const {
-    startOver, isCorrect
-  } = useContext(AppContext)
+const Yes = (props) => {
+  const { startOver, isCorrect } = useContext(AppContext)
 
   const randomGif = () => {
     return gifs[Math.floor(Math.random() * gifs.length)]
@@ -106,15 +112,13 @@ const Yes = props => {
       setGif(`https://i.giphy.com/media/${x}/giphy.gif`)
       s = setTimeout(() => {
         setShow(true)
-      }, 100);
-      return () => clearTimeout(s);
+      }, 100)
+      return () => clearTimeout(s)
     }
 
     return () => {
-      if (x)
-        clearTimeout(x)
-      if (s)
-        clearTimeout(s)
+      if (x) clearTimeout(x)
+      if (s) clearTimeout(s)
     }
   }, [isCorrect])
 
