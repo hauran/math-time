@@ -94,7 +94,7 @@ const Modes = (props) => {
               <Gif id="8OPzq48W0upEDZHQ43" wDesktop={200} wMobile={100}></Gif>
               <Copy>
                 <p style={{ margin: 0 }}>
-                  For that extra excitment of racing the clock and beating your personal best.
+                  For that extra excitement of racing the clock and beating your personal best.
                 </p>
               </Copy>
             </Body>
