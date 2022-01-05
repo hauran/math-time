@@ -15,10 +15,10 @@ const ModeContainer = styled.div`
   z-index: 1;
   display: flex;
   align-items: center;
-  flex-direction:column;
+  flex-direction: column;
   /* desktop */
   @media (min-width: 769px) {
-    justify-content:center;
+    justify-content: center;
   }
 
   /* tablet & phone */
@@ -39,74 +39,69 @@ const Option = styled.div`
   max-width: 450px;
   margin-bottom: 20px;
   &:last-of-type {
-    margin-bottom:0;
+    margin-bottom: 0;
   }
   /* desktop */
   @media (min-width: 769px) {
     padding: 20px;
-    flex:0.5;
-
+    flex: 0.5;
   }
   /* tablet & phone */
   @media (max-width: 768px) {
     padding: 15px;
-    flex: calc( 0.5 - 50px);
+    flex: calc(0.5 - 50px);
   }
 `
 const Title = styled.h1`
-  text-align:center;
-  margin:10px;
+  text-align: center;
+  margin: 10px;
 `
 
 const Body = styled.section`
-  display:flex;
+  display: flex;
 `
 
 const Copy = styled.div`
   flex: 1;
   display: flex;
-  align-items:center;
+  align-items: center;
 `
 
-const Modes = props => {
-    const {
-      mode, setMode
-    } = useContext(AppContext)
-
+const Modes = (props) => {
+  const { mode, setMode } = useContext(AppContext)
 
   return (
     <>
-    {!mode ?
-    <ModeContainer>
-      <Option onClick={() => setMode('timer')}>
-        <Title>Timer Mode</Title>
-        <p style={{ textAlign: 'center' }}>You have 2 minutes. Ready, Set...</p>
-        <Body>
-          <Gif id="8OPzq48W0upEDZHQ43" wDesktop={200} wMobile={100}></Gif>
-          <Copy>
-            <p style={{ margin: 0 }}>
-              For that extra excitment of racing the clock and beating your personal best.
-            </p>
-          </Copy>
-        </Body>
-      </Option>
+      {!mode ? (
+        <ModeContainer>
+          <Option onClick={() => setMode('casual')}>
+            <Title>Casual Mode</Title>
+            <p style={{ textAlign: 'center' }}>Chill dude...</p>
+            <Body>
+              <Gif id="kC8VlVbwprG6gmIaTZ" wDesktop={220} wMobile={120}></Gif>
+              <Copy>
+                <p style={{ margin: 0 }}>
+                  Take your time. Just relax and practice a few math problems.
+                </p>
+              </Copy>
+            </Body>
+          </Option>
 
-      <Option onClick={() => setMode('casual')}>
-        <Title>Casual Mode</Title>
-        <p style={{ textAlign: 'center' }}>Chill dude...</p>
-        <Body>
-          <Gif id="kC8VlVbwprG6gmIaTZ" wDesktop={220} wMobile={120}></Gif>
-          <Copy>
-            <p style={{ margin: 0 }}>
-              Take your time. Just relax and practice a few math problems.
-            </p>
-          </Copy>
-        </Body>
-      </Option>
-    </ModeContainer>
-    :null}
+          <Option onClick={() => setMode('timer')}>
+            <Title>Timer Mode</Title>
+            <p style={{ textAlign: 'center' }}>You have 2 minutes. Ready, Set...</p>
+            <Body>
+              <Gif id="8OPzq48W0upEDZHQ43" wDesktop={200} wMobile={100}></Gif>
+              <Copy>
+                <p style={{ margin: 0 }}>
+                  For that extra excitment of racing the clock and beating your personal best.
+                </p>
+              </Copy>
+            </Body>
+          </Option>
+        </ModeContainer>
+      ) : null}
     </>
   )
 }
 export default Modes
-
